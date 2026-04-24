@@ -119,8 +119,8 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
     <div className={darkMode ? 'dark' : ''}>
       <div className="h-screen flex flex-col bg-lm-base dark:bg-dm-base text-lm-text-primary dark:text-dm-text-primary">
         {/* Header */}
-        <div className="bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-4 sm:px-6 py-4 flex justify-between items-center">
-          <div>
+        <div className="relative bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-4 sm:px-6 py-4">
+          <div className="mx-auto w-full text-center">
             <h1 className="text-2xl sm:text-3xl font-bold text-lm-text-primary dark:text-dm-text-primary">
               Create New Application
             </h1>
@@ -130,7 +130,7 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
           </div>
           <button
             onClick={onCancel}
-            className="text-lm-text-muted hover:text-lm-text-secondary dark:text-dm-text-muted dark:hover:text-dm-text-secondary text-3xl"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-lm-text-muted hover:text-lm-text-secondary dark:text-dm-text-muted dark:hover:text-dm-text-secondary text-3xl sm:right-6"
           >
             ×
           </button>
@@ -147,7 +147,7 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
         {/* Main Content */}
         <div className="flex-1 overflow-y-auto">
-          <div className="bg-lm-base dark:bg-dm-base w-full">
+          <div className="mx-auto w-full bg-lm-base dark:bg-dm-base lg:w-3/5">
             <ApplicationForm
               app={formData}
               onUpdate={handleUpdate}
@@ -157,12 +157,13 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
               onRemoveLink={handleRemoveLink}
               onAddTimelineEntry={handleAddTimelineEntry}
               onRemoveTimelineEntry={handleRemoveTimelineEntry}
+              showPreview={false}
             />
           </div>
 
           {/* Error Display */}
           {Object.keys(errors).length > 0 && (
-            <div className="mx-6 mt-4 p-4 bg-lm-error-bg dark:bg-dm-error-bg border border-lm-error-border dark:border-dm-error-border rounded">
+            <div className="mx-auto mt-4 w-full p-4 bg-lm-error-bg dark:bg-dm-error-bg border border-lm-error-border dark:border-dm-error-border rounded lg:w-3/5">
               <p className="text-lm-error-text dark:text-dm-error-text font-medium mb-2">
                 Please fix the following errors:
               </p>
@@ -177,20 +178,22 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 flex justify-end gap-3 shrink-0">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={submitted}
-            className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-accent dark:text-dm-base rounded hover:opacity-90 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {submitted ? 'Creating...' : 'Create Application'}
-          </button>
+        <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 shrink-0">
+          <div className="mx-auto flex w-full justify-end gap-3 lg:w-3/5">
+            <button
+              onClick={onCancel}
+              className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={submitted}
+              className="px-4 py-2 bg-lm-text-primary text-lm-surface-1 dark:bg-dm-text-primary dark:text-dm-base rounded hover:bg-lm-text-secondary dark:hover:bg-dm-text-secondary font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {submitted ? 'Creating...' : 'Create Application'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

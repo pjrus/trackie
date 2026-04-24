@@ -203,7 +203,7 @@ function App() {
             />
             <button
               onClick={handleAddApplication}
-              className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:opacity-90 dark:hover:bg-dm-surface-4 font-medium whitespace-nowrap"
+              className="px-4 py-2 bg-lm-surface-3 text-lm-text-primary dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium whitespace-nowrap"
             >
               + New Application
             </button>
@@ -225,7 +225,7 @@ function App() {
               className="px-4 py-2 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-primary dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium"
               title={darkMode ? 'Light mode' : 'Dark mode'}
             >
-              {darkMode ? '○' : '●'}
+              {darkMode ? '☀' : '☾'}
             </button>
           </div>
         </div>
@@ -263,7 +263,7 @@ function App() {
             {applications.length === 0 && (
               <button
                 onClick={handleAddApplication}
-                className="px-6 py-2 bg-lm-accent text-white dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:opacity-90 dark:hover:bg-dm-surface-4 font-medium"
+                className="px-6 py-2 bg-lm-surface-3 text-lm-text-primary dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium"
               >
                 + New Application
               </button>
