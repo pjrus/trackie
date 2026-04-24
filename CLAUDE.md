@@ -64,6 +64,14 @@ Each job application object contains:
 - Color-coded stages and priorities using Tailwind classes (defined in components like KanbanBoard.jsx)
 - Responsive design with `sm:` breakpoints
 
+**CSS Variables (src/index.css)**:
+- All colors are defined as CSS variables: `--lm-*` for light mode, `--dm-*` for dark mode
+- Available variables: `base`, `surface-1` through `surface-4`, `border`, `border-med`, `accent`, `text-primary`, `text-secondary`, `text-muted`, plus priority/status colors
+- Always use CSS variable classes (`bg-lm-accent`, `text-dm-text-primary`, etc.) instead of hardcoded Tailwind colors
+- Use `dark:` prefix for dark mode variants: `bg-lm-surface-1 dark:bg-dm-surface-1`
+- When styling buttons, inputs, or interactive elements, prefer Tailwind classes with CSS variables over inline styles
+- To adjust colors globally (e.g., accent button brightness), modify the CSS variable in `src/index.css` rather than changing individual component classes
+
 ### Export/Import
 - Utilities in `src/utils/`: `csvExport.js`, `csvImport.js`, `jsonExport.js`, `icsExport.js`
 - Import merges new applications with existing ones

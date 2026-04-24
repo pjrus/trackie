@@ -131,114 +131,121 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
       {/* Content */}
       <div className="p-6">
         {activeTab === 'details' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Company">
-                <TextInput
-                  value={app.company}
-                  onChange={(e) => onUpdate('company', e.target.value)}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-0 items-start">
+            {/* Left column — primary fields */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Company">
+                  <TextInput
+                    value={app.company}
+                    onChange={(e) => onUpdate('company', e.target.value)}
+                  />
+                </Field>
+                <Field label="Role">
+                  <TextInput
+                    value={app.role}
+                    onChange={(e) => onUpdate('role', e.target.value)}
+                  />
+                </Field>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Industry">
+                  <Select
+                    value={app.industry}
+                    onChange={(e) => onUpdate('industry', e.target.value)}
+                    options={INDUSTRIES}
+                  />
+                </Field>
+                <Field label="Type">
+                  <Select
+                    value={app.type}
+                    onChange={(e) => onUpdate('type', e.target.value)}
+                    options={TYPES}
+                  />
+                </Field>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Stage">
+                  <Select
+                    value={app.stage}
+                    onChange={(e) => onUpdate('stage', e.target.value)}
+                    options={STAGES}
+                  />
+                </Field>
+                <Field label="Priority">
+                  <Select
+                    value={app.priority}
+                    onChange={(e) => onUpdate('priority', e.target.value)}
+                    options={PRIORITIES}
+                  />
+                </Field>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Application Deadline">
+                  <input
+                    type="date"
+                    value={formatDateForInput(app.applicationDeadline)}
+                    onChange={(e) => onUpdate('applicationDeadline', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label="Next Step Deadline">
+                  <input
+                    type="date"
+                    value={formatDateForInput(app.nextStepDeadline)}
+                    onChange={(e) => onUpdate('nextStepDeadline', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+
+              <Field label="Next Step Description">
+                <TextArea
+                  value={app.nextStepDescription}
+                  onChange={(e) => onUpdate('nextStepDescription', e.target.value)}
+                  placeholder="e.g., Complete OA by Oct 10"
                 />
               </Field>
-              <Field label="Role">
-                <TextInput
-                  value={app.role}
-                  onChange={(e) => onUpdate('role', e.target.value)}
+
+              <Field label="Why I Applied">
+                <TextArea
+                  value={app.whyApplied}
+                  onChange={(e) => onUpdate('whyApplied', e.target.value)}
+                  placeholder="What attracted you to this opportunity?"
                 />
               </Field>
-              <Field label="Industry">
-                <Select
-                  value={app.industry}
-                  onChange={(e) => onUpdate('industry', e.target.value)}
-                  options={INDUSTRIES}
-                />
-              </Field>
-              <Field label="Type">
-                <Select
-                  value={app.type}
-                  onChange={(e) => onUpdate('type', e.target.value)}
-                  options={TYPES}
+
+              <Field label="Notes">
+                <TextArea
+                  value={app.notes}
+                  onChange={(e) => onUpdate('notes', e.target.value)}
+                  placeholder="Additional notes"
                 />
               </Field>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Stage">
-                <Select
-                  value={app.stage}
-                  onChange={(e) => onUpdate('stage', e.target.value)}
-                  options={STAGES}
-                />
-              </Field>
-              <Field label="Priority">
-                <Select
-                  value={app.priority}
-                  onChange={(e) => onUpdate('priority', e.target.value)}
-                  options={PRIORITIES}
-                />
-              </Field>
-            </div>
+            {/* Right column — secondary fields */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Location">
+                  <TextInput
+                    value={app.location}
+                    onChange={(e) => onUpdate('location', e.target.value)}
+                    placeholder="City, Country"
+                  />
+                </Field>
+                <Field label="Salary / Stipend">
+                  <TextInput
+                    value={app.salary}
+                    onChange={(e) => onUpdate('salary', e.target.value)}
+                    placeholder="e.g., $150,000"
+                  />
+                </Field>
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Application Deadline">
-                <input
-                  type="date"
-                  value={formatDateForInput(app.applicationDeadline)}
-                  onChange={(e) => onUpdate('applicationDeadline', e.target.value)}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Next Step Deadline">
-                <input
-                  type="date"
-                  value={formatDateForInput(app.nextStepDeadline)}
-                  onChange={(e) => onUpdate('nextStepDeadline', e.target.value)}
-                  className={inputClass}
-                />
-              </Field>
-            </div>
-
-            <Field label="Next Step Description">
-              <TextArea
-                value={app.nextStepDescription}
-                onChange={(e) => onUpdate('nextStepDescription', e.target.value)}
-                placeholder="e.g., Complete OA by Oct 10"
-              />
-            </Field>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Location">
-                <TextInput
-                  value={app.location}
-                  onChange={(e) => onUpdate('location', e.target.value)}
-                  placeholder="City, Country"
-                />
-              </Field>
-              <Field label="Salary / Stipend">
-                <TextInput
-                  value={app.salary}
-                  onChange={(e) => onUpdate('salary', e.target.value)}
-                  placeholder="e.g., $150,000"
-                />
-              </Field>
-            </div>
-
-            <Field label="Why I Applied">
-              <TextArea
-                value={app.whyApplied}
-                onChange={(e) => onUpdate('whyApplied', e.target.value)}
-                placeholder="What attracted you to this opportunity?"
-              />
-            </Field>
-
-            <Field label="Notes">
-              <TextArea
-                value={app.notes}
-                onChange={(e) => onUpdate('notes', e.target.value)}
-                placeholder="Additional notes"
-              />
-            </Field>
-
-            <div className="grid grid-cols-2 gap-4">
               <Field label="Job Posting URL">
                 <TextInput
                   value={app.jobUrl}
@@ -246,6 +253,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   placeholder="https://..."
                 />
               </Field>
+
               <Field label="Confidence Rating">
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((n) => (
@@ -261,110 +269,110 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   ))}
                 </div>
               </Field>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Referral">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={app.referral}
-                    onChange={(e) => onUpdate('referral', e.target.checked)}
-                    className="w-4 h-4"
-                  />
-                  <span className="text-lm-text-secondary dark:text-dm-text-secondary">
-                    Have a referral
-                  </span>
-                </label>
-              </Field>
-              {app.referral && (
-                <Field label="Referrer Name">
-                  <TextInput
-                    value={app.referrerName}
-                    onChange={(e) => onUpdate('referrerName', e.target.value)}
-                  />
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Referral">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={app.referral}
+                      onChange={(e) => onUpdate('referral', e.target.checked)}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-lm-text-secondary dark:text-dm-text-secondary">
+                      Have a referral
+                    </span>
+                  </label>
                 </Field>
-              )}
+                {app.referral && (
+                  <Field label="Referrer Name">
+                    <TextInput
+                      value={app.referrerName}
+                      onChange={(e) => onUpdate('referrerName', e.target.value)}
+                    />
+                  </Field>
+                )}
+              </div>
+
+              {/* Tags */}
+              <Field label="Tags">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {app.tags.map((tag) => (
+                    <div
+                      key={tag}
+                      className="inline-flex items-center gap-2 px-2 py-1 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-secondary dark:text-dm-text-secondary rounded text-sm"
+                    >
+                      {tag}
+                      <button
+                        onClick={() => onRemoveTag(tag)}
+                        className="text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                    placeholder="Add tag..."
+                    className={inputClass}
+                  />
+                  <button
+                    onClick={handleAddTag}
+                    className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
+                  >
+                    Add
+                  </button>
+                </div>
+              </Field>
+
+              {/* Links */}
+              <Field label="Links">
+                <div className="space-y-2 mb-2">
+                  {app.links.map((link) => (
+                    <div
+                      key={link.id}
+                      className="flex items-center justify-between p-2 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
+                    >
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-dm-accent hover:underline truncate"
+                      >
+                        {link.url}
+                      </a>
+                      <button
+                        onClick={() => onRemoveLink(link.id)}
+                        className="ml-2 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    value={newLink}
+                    onChange={(e) => setNewLink(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAddLink()}
+                    placeholder="https://..."
+                    className={inputClass}
+                  />
+                  <button
+                    onClick={handleAddLink}
+                    className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
+                  >
+                    Add
+                  </button>
+                </div>
+              </Field>
             </div>
-
-            {/* Tags */}
-            <Field label="Tags">
-              <div className="flex flex-wrap gap-2 mb-2">
-                {app.tags.map((tag) => (
-                  <div
-                    key={tag}
-                    className="inline-flex items-center gap-2 px-2 py-1 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-secondary dark:text-dm-text-secondary rounded text-sm"
-                  >
-                    {tag}
-                    <button
-                      onClick={() => onRemoveTag(tag)}
-                      className="text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                  placeholder="Add tag..."
-                  className={inputClass}
-                />
-                <button
-                  onClick={handleAddTag}
-                  className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
-                >
-                  Add
-                </button>
-              </div>
-            </Field>
-
-            {/* Links */}
-            <Field label="Links">
-              <div className="space-y-2 mb-2">
-                {app.links.map((link) => (
-                  <div
-                    key={link.id}
-                    className="flex items-center justify-between p-2 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
-                  >
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-dm-accent hover:underline truncate"
-                    >
-                      {link.url}
-                    </a>
-                    <button
-                      onClick={() => onRemoveLink(link.id)}
-                      className="ml-2 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="url"
-                  value={newLink}
-                  onChange={(e) => setNewLink(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddLink()}
-                  placeholder="https://..."
-                  className={inputClass}
-                />
-                <button
-                  onClick={handleAddLink}
-                  className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
-                >
-                  Add
-                </button>
-              </div>
-            </Field>
           </div>
         )}
 

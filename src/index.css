@@ -11,7 +11,7 @@
   --lm-surface-4:   #d1d5db; /* deeper hover / pressed (gray-300) */
   --lm-border:      #e5e7eb; /* light borders (gray-200) */
   --lm-border-med:  #d1d5db; /* medium borders (gray-300) */
-  --lm-accent:      #22c55e; /* primary CTA / green (green-500) */
+  --lm-accent:      #ffffff; /* primary CTA / white */
   --lm-text-primary:   #111827; /* headings, bold (gray-900) */
   --lm-text-secondary: #374151; /* body, labels (gray-700) */
   --lm-text-muted:     #6b7280; /* placeholders, empty states (gray-500) */

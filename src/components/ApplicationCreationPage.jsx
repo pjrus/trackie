@@ -117,7 +117,7 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-lm-base dark:bg-dm-base text-lm-text-primary dark:text-dm-text-primary">
+      <div className="h-screen flex flex-col bg-lm-base dark:bg-dm-base text-lm-text-primary dark:text-dm-text-primary">
         {/* Header */}
         <div className="bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-4 sm:px-6 py-4 flex justify-between items-center">
           <div>
@@ -146,8 +146,8 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
         )}
 
         {/* Main Content */}
-        <div className="flex-1">
-          <div className="bg-lm-base dark:bg-dm-base max-w-4xl">
+        <div className="flex-1 overflow-y-auto">
+          <div className="bg-lm-base dark:bg-dm-base w-full">
             <ApplicationForm
               app={formData}
               onUpdate={handleUpdate}
@@ -174,22 +174,23 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
             </div>
           )}
 
-          {/* Footer */}
-          <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 flex justify-end gap-3 sticky bottom-0">
-            <button
-              onClick={onCancel}
-              className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={submitted}
-              className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-accent dark:text-dm-base rounded hover:opacity-90 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {submitted ? 'Creating...' : 'Create Application'}
-            </button>
-          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 flex justify-end gap-3 shrink-0">
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={submitted}
+            className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-accent dark:text-dm-base rounded hover:opacity-90 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {submitted ? 'Creating...' : 'Create Application'}
+          </button>
         </div>
       </div>
     </div>
