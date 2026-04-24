@@ -131,7 +131,7 @@ export function FilterBar({
                     deadlineFrom: e.target.value,
                   })
                 }
-                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary"
+                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary dark:[color-scheme:dark]"
               />
             </div>
             <div>
@@ -144,7 +144,7 @@ export function FilterBar({
                 onChange={(e) =>
                   onFilterChange({ ...filters, deadlineTo: e.target.value })
                 }
-                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary"
+                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary dark:[color-scheme:dark]"
               />
             </div>
           </div>
@@ -162,19 +162,28 @@ function FilterSelect({ label, options, value, onChange }) {
       </label>
       <div className="space-y-1 text-sm">
         {options.map((opt) => (
-          <label key={opt} className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={value.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  onChange([...value, opt]);
-                } else {
-                  onChange(value.filter((v) => v !== opt));
-                }
-              }}
-              className="w-4 h-4"
-            />
+          <label key={opt} className="flex items-center gap-2 cursor-pointer select-none">
+            <span className="relative flex items-center">
+              <input
+                type="checkbox"
+                checked={value.includes(opt)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    onChange([...value, opt]);
+                  } else {
+                    onChange(value.filter((v) => v !== opt));
+                  }
+                }}
+                className="peer sr-only"
+              />
+              <span className="w-4 h-4 rounded border-2 border-lm-border-med dark:border-dm-border bg-lm-surface-1 dark:bg-dm-surface-2 flex items-center justify-center transition-colors peer-checked:bg-lm-text-primary peer-checked:border-lm-text-primary dark:peer-checked:bg-dm-text-primary dark:peer-checked:border-dm-text-primary">
+                {value.includes(opt) && (
+                  <svg className="w-2.5 h-2.5 text-white dark:text-dm-base" viewBox="0 0 10 8" fill="none">
+                    <path d="M1 4l2.5 2.5L9 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
+              </span>
+            </span>
             <span className="text-lm-text-secondary dark:text-dm-text-secondary">{opt}</span>
           </label>
         ))}

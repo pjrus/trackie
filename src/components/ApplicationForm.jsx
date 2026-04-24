@@ -1,6 +1,58 @@
 import { useState } from 'react';
 import { formatDate, formatDateForInput } from '../utils/dateUtils';
 
+const inputClass = "w-full px-3 py-2 border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary";
+const dateInputClass = `${inputClass} dark:[color-scheme:dark]`;
+
+const Field = ({ label, children }) => (
+  <div className="mb-4">
+    <label className="block text-sm font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
+      {label}
+    </label>
+    {children}
+  </div>
+);
+
+const TextInput = ({ value, onChange, placeholder }) => (
+  <input
+    type="text"
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    className={inputClass}
+  />
+);
+
+const TextArea = ({ value, onChange, placeholder }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <textarea
+      value={value}
+      onChange={onChange}
+      onFocus={() => setIsExpanded(true)}
+      placeholder={placeholder}
+      className={`${inputClass} resize-none transition-all duration-200 ${
+        isExpanded ? 'h-32' : 'h-20'
+      }`}
+    />
+  );
+};
+
+const Select = ({ value, onChange, options }) => (
+  <select
+    value={value}
+    onChange={onChange}
+    className={`${inputClass} appearance-none`}
+  >
+    {options.map((opt) => (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    ))}
+  </select>
+);
+
 const INDUSTRIES = [
   'Software Engineering',
   'Quantitative Trading',
@@ -23,7 +75,6 @@ const TYPES = ['Internship', 'Graduate', 'Full-time'];
 const PRIORITIES = ['High', 'Medium', 'Low'];
 
 export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLink, onRemoveLink, onAddTimelineEntry, onRemoveTimelineEntry }) {
-  const [activeTab, setActiveTab] = useState('details');
   const [newTag, setNewTag] = useState('');
   const [newTimelineDate, setNewTimelineDate] = useState('');
   const [newTimelineDesc, setNewTimelineDesc] = useState('');
@@ -51,185 +102,109 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
     }
   };
 
-  const inputClass = "w-full px-3 py-2 border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary";
-
-  const Field = ({ label, children }) => (
-    <div className="mb-4">
-      <label className="block text-sm font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-
-  const TextInput = ({ value, onChange, placeholder }) => (
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className={inputClass}
-    />
-  );
-
-  const TextArea = ({ value, onChange, placeholder }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    return (
-      <textarea
-        value={value}
-        onChange={onChange}
-        onFocus={() => setIsExpanded(true)}
-        placeholder={placeholder}
-        className={`${inputClass} resize-none transition-all duration-200 ${
-          isExpanded ? 'h-32' : 'h-20'
-        }`}
-      />
-    );
-  };
-
-  const Select = ({ value, onChange, options }) => (
-    <select
-      value={value}
-      onChange={onChange}
-      className={`${inputClass} appearance-none`}
-    >
-      {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt}
-        </option>
-      ))}
-    </select>
-  );
-
   return (
     <div className="w-full">
-      {/* Tabs */}
-      <div className="border-b border-lm-border dark:border-dm-border flex gap-4 px-6 py-2 bg-lm-surface-2 dark:bg-dm-surface-2">
-        <button
-          onClick={() => setActiveTab('details')}
-          className={`px-4 py-2 font-medium ${
-            activeTab === 'details'
-              ? 'border-b-2 border-blue-500 dark:border-dm-accent text-blue-600 dark:text-dm-text-primary'
-              : 'text-lm-text-muted dark:text-dm-text-muted'
-          }`}
-        >
-          Details
-        </button>
-        <button
-          onClick={() => setActiveTab('timeline')}
-          className={`px-4 py-2 font-medium ${
-            activeTab === 'timeline'
-              ? 'border-b-2 border-blue-500 dark:border-dm-accent text-blue-600 dark:text-dm-text-primary'
-              : 'text-lm-text-muted dark:text-dm-text-muted'
-          }`}
-        >
-          Timeline
-        </button>
-      </div>
-
-      {/* Content */}
       <div className="p-6">
-        {activeTab === 'details' && (
-          <div className="grid grid-cols-2 gap-x-8 gap-y-0 items-start">
-            {/* Left column — primary fields */}
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Company">
-                  <TextInput
-                    value={app.company}
-                    onChange={(e) => onUpdate('company', e.target.value)}
-                  />
-                </Field>
-                <Field label="Role">
-                  <TextInput
-                    value={app.role}
-                    onChange={(e) => onUpdate('role', e.target.value)}
-                  />
-                </Field>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Industry">
-                  <Select
-                    value={app.industry}
-                    onChange={(e) => onUpdate('industry', e.target.value)}
-                    options={INDUSTRIES}
-                  />
-                </Field>
-                <Field label="Type">
-                  <Select
-                    value={app.type}
-                    onChange={(e) => onUpdate('type', e.target.value)}
-                    options={TYPES}
-                  />
-                </Field>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Stage">
-                  <Select
-                    value={app.stage}
-                    onChange={(e) => onUpdate('stage', e.target.value)}
-                    options={STAGES}
-                  />
-                </Field>
-                <Field label="Priority">
-                  <Select
-                    value={app.priority}
-                    onChange={(e) => onUpdate('priority', e.target.value)}
-                    options={PRIORITIES}
-                  />
-                </Field>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Application Deadline">
-                  <input
-                    type="date"
-                    value={formatDateForInput(app.applicationDeadline)}
-                    onChange={(e) => onUpdate('applicationDeadline', e.target.value)}
-                    className={inputClass}
-                  />
-                </Field>
-                <Field label="Next Step Deadline">
-                  <input
-                    type="date"
-                    value={formatDateForInput(app.nextStepDeadline)}
-                    onChange={(e) => onUpdate('nextStepDeadline', e.target.value)}
-                    className={inputClass}
-                  />
-                </Field>
-              </div>
-
-              <Field label="Next Step Description">
-                <TextArea
-                  value={app.nextStepDescription}
-                  onChange={(e) => onUpdate('nextStepDescription', e.target.value)}
-                  placeholder="e.g., Complete OA by Oct 10"
+        <div className="mx-auto max-w-3xl space-y-6">
+          {/* Primary application details */}
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Company">
+                <TextInput
+                  value={app.company}
+                  onChange={(e) => onUpdate('company', e.target.value)}
                 />
               </Field>
-
-              <Field label="Why I Applied">
-                <TextArea
-                  value={app.whyApplied}
-                  onChange={(e) => onUpdate('whyApplied', e.target.value)}
-                  placeholder="What attracted you to this opportunity?"
-                />
-              </Field>
-
-              <Field label="Notes">
-                <TextArea
-                  value={app.notes}
-                  onChange={(e) => onUpdate('notes', e.target.value)}
-                  placeholder="Additional notes"
+              <Field label="Role">
+                <TextInput
+                  value={app.role}
+                  onChange={(e) => onUpdate('role', e.target.value)}
                 />
               </Field>
             </div>
 
-            {/* Right column — secondary fields */}
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Industry">
+                <Select
+                  value={app.industry}
+                  onChange={(e) => onUpdate('industry', e.target.value)}
+                  options={INDUSTRIES}
+                />
+              </Field>
+              <Field label="Type">
+                <Select
+                  value={app.type}
+                  onChange={(e) => onUpdate('type', e.target.value)}
+                  options={TYPES}
+                />
+              </Field>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Stage">
+                <Select
+                  value={app.stage}
+                  onChange={(e) => onUpdate('stage', e.target.value)}
+                  options={STAGES}
+                />
+              </Field>
+              <Field label="Priority">
+                <Select
+                  value={app.priority}
+                  onChange={(e) => onUpdate('priority', e.target.value)}
+                  options={PRIORITIES}
+                />
+              </Field>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Application Deadline">
+                <input
+                  type="date"
+                  value={formatDateForInput(app.applicationDeadline)}
+                  onChange={(e) => onUpdate('applicationDeadline', e.target.value)}
+                  className={dateInputClass}
+                />
+              </Field>
+              <Field label="Next Step Deadline">
+                <input
+                  type="date"
+                  value={formatDateForInput(app.nextStepDeadline)}
+                  onChange={(e) => onUpdate('nextStepDeadline', e.target.value)}
+                  className={dateInputClass}
+                />
+              </Field>
+            </div>
+
+            <Field label="Next Step Description">
+              <TextArea
+                value={app.nextStepDescription}
+                onChange={(e) => onUpdate('nextStepDescription', e.target.value)}
+                placeholder="e.g., Complete OA by Oct 10"
+              />
+            </Field>
+
+            <Field label="Why I Applied">
+              <TextArea
+                value={app.whyApplied}
+                onChange={(e) => onUpdate('whyApplied', e.target.value)}
+                placeholder="What attracted you to this opportunity?"
+              />
+            </Field>
+
+            <Field label="Notes">
+              <TextArea
+                value={app.notes}
+                onChange={(e) => onUpdate('notes', e.target.value)}
+                placeholder="Additional notes"
+              />
+            </Field>
+          </div>
+
+          {/* Supporting details and timeline */}
+          <div className="space-y-6">
+            <div className="space-y-4 rounded border border-lm-border dark:border-dm-border bg-lm-surface-1 dark:bg-dm-surface-1 p-4 shadow-sm">
+              <div className="grid grid-cols-1 gap-4">
                 <Field label="Location">
                   <TextInput
                     value={app.location}
@@ -270,29 +245,13 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                 </div>
               </Field>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Referral">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={app.referral}
-                      onChange={(e) => onUpdate('referral', e.target.checked)}
-                      className="w-4 h-4"
-                    />
-                    <span className="text-lm-text-secondary dark:text-dm-text-secondary">
-                      Have a referral
-                    </span>
-                  </label>
-                </Field>
-                {app.referral && (
-                  <Field label="Referrer Name">
-                    <TextInput
-                      value={app.referrerName}
-                      onChange={(e) => onUpdate('referrerName', e.target.value)}
-                    />
-                  </Field>
-                )}
-              </div>
+              <Field label="Referrer Name">
+                <TextInput
+                  value={app.referrerName}
+                  onChange={(e) => onUpdate('referrerName', e.target.value)}
+                  placeholder="Referrer's name (optional)"
+                />
+              </Field>
 
               {/* Tags */}
               <Field label="Tags">
@@ -317,7 +276,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                     type="text"
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddTag()}
                     placeholder="Add tag..."
                     className={inputClass}
                   />
@@ -360,7 +319,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                     type="url"
                     value={newLink}
                     onChange={(e) => setNewLink(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleAddLink()}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddLink()}
                     placeholder="https://..."
                     className={inputClass}
                   />
@@ -373,75 +332,76 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                 </div>
               </Field>
             </div>
-          </div>
-        )}
 
-        {activeTab === 'timeline' && (
-          <div className="space-y-4">
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
-                Add Timeline Entry
-              </h3>
-              <input
-                type="date"
-                value={newTimelineDate}
-                onChange={(e) => setNewTimelineDate(e.target.value)}
-                className={inputClass}
-              />
-              <input
-                type="text"
-                value={newTimelineDesc}
-                onChange={(e) => setNewTimelineDesc(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleAddTimelineEntry()}
-                placeholder="e.g., Submitted OA"
-                className={inputClass}
-              />
-              <button
-                onClick={handleAddTimelineEntry}
-                className="w-full px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90 font-medium"
-              >
-                Add Entry
-              </button>
-            </div>
+            <section className="rounded border border-lm-border dark:border-dm-border bg-lm-surface-1 dark:bg-dm-surface-1 p-4 shadow-sm">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <h3 className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
+                  Timeline
+                </h3>
+                <span className="rounded bg-lm-surface-2 dark:bg-dm-surface-2 px-2 py-1 text-xs font-medium text-lm-text-muted dark:text-dm-text-muted">
+                  {app.timeline.length} {app.timeline.length === 1 ? 'entry' : 'entries'}
+                </span>
+              </div>
 
-            <div className="border-t border-lm-border dark:border-dm-border pt-4">
-              <h3 className="font-semibold text-lm-text-primary dark:text-dm-text-primary mb-3">
-                Timeline ({app.timeline.length})
-              </h3>
-              {app.timeline.length === 0 ? (
-                <p className="text-lm-text-muted dark:text-dm-text-muted text-sm">
-                  No timeline entries yet
-                </p>
-              ) : (
-                <div className="space-y-2">
-                  {[...app.timeline]
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((entry) => (
-                      <div
-                        key={entry.id}
-                        className="flex items-center justify-between p-3 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
-                      >
-                        <div>
-                          <div className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
-                            {formatDate(entry.date)}
-                          </div>
-                          <div className="text-sm text-lm-text-secondary dark:text-dm-text-secondary">
-                            {entry.description}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => onRemoveTimelineEntry(entry.id)}
-                          className="ml-4 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
+              <div className="grid grid-cols-1 gap-3">
+                <input
+                  type="date"
+                  value={newTimelineDate}
+                  onChange={(e) => setNewTimelineDate(e.target.value)}
+                  className={dateInputClass}
+                />
+                <input
+                  type="text"
+                  value={newTimelineDesc}
+                  onChange={(e) => setNewTimelineDesc(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddTimelineEntry()}
+                  placeholder="e.g., Submitted OA"
+                  className={inputClass}
+                />
+                <button
+                  onClick={handleAddTimelineEntry}
+                  className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90 font-medium"
+                >
+                  Add Entry
+                </button>
+              </div>
+
+              <div className="mt-4 border-t border-lm-border dark:border-dm-border pt-4">
+                {app.timeline.length === 0 ? (
+                  <p className="text-lm-text-muted dark:text-dm-text-muted text-sm">
+                    No timeline entries yet
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {[...app.timeline]
+                      .sort((a, b) => new Date(b.date) - new Date(a.date))
+                      .map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="flex items-center justify-between p-3 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
                         >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
+                          <div>
+                            <div className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
+                              {formatDate(entry.date)}
+                            </div>
+                            <div className="text-sm text-lm-text-secondary dark:text-dm-text-secondary">
+                              {entry.description}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => onRemoveTimelineEntry(entry.id)}
+                            className="ml-4 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+            </section>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
