@@ -1,3 +1,119 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* Light mode color palette — edit these to retheme light mode globally */
+:root {
+  --lm-base:        #f9fafb; /* page background (gray-50) */
+  --lm-surface-1:   #ffffff; /* headers, cards, modals */
+  --lm-surface-2:   #f3f4f6; /* inputs, footers, secondary panels (gray-100) */
+  --lm-surface-3:   #e5e7eb; /* hover states (gray-200) */
+  --lm-surface-4:   #d1d5db; /* deeper hover / pressed (gray-300) */
+  --lm-border:      #e5e7eb; /* light borders (gray-200) */
+  --lm-border-med:  #d1d5db; /* medium borders (gray-300) */
+  --lm-accent:      #22c55e; /* primary CTA / green (green-500) */
+  --lm-text-primary:   #111827; /* headings, bold (gray-900) */
+  --lm-text-secondary: #374151; /* body, labels (gray-700) */
+  --lm-text-muted:     #6b7280; /* placeholders, empty states (gray-500) */
+
+  /* Priority/status */
+  --lm-high-bg:     #fecaca; /* high priority background (red-200) */
+  --lm-high-text:   #7f1d1d; /* high priority text (red-900) */
+  --lm-med-bg:      #fde68a; /* medium priority background (amber-200) */
+  --lm-med-text:    #78350f; /* medium priority text (amber-900) */
+  --lm-low-bg:      #bbf7d0; /* low priority background (green-200) */
+  --lm-low-text:    #14532d; /* low priority text (green-900) */
+  --lm-overdue:     #dc2626; /* overdue deadline text (red-600) */
+
+  /* Status banners */
+  --lm-success-bg:    #f0fdf4; /* green-50 */
+  --lm-success-border:#bbf7d0; /* green-200 */
+  --lm-success-text:  #166534; /* green-800 */
+  --lm-error-bg:      #fef2f2; /* red-50 */
+  --lm-error-border:  #fecaca; /* red-200 */
+  --lm-error-text:    #991b1b; /* red-800 */
+}
+
+/* Dark mode color palette — edit these to retheme dark mode globally */
+.dark {
+  --dm-base:        #121212; /* page background */
+  --dm-surface-1:   #1a1a1a; /* headers, cards, modals */
+  --dm-surface-2:   #222222; /* inputs, footers, secondary panels */
+  --dm-surface-3:   #2d2d2d; /* hover states */
+  --dm-surface-4:   #3a3a3a; /* deeper hover / pressed */
+  --dm-border:      #444444; /* all borders */
+  --dm-accent:      #888888; /* interactive accent (tabs, active states) */
+  --dm-text-primary:   #e0e0e0; /* headings, bold */
+  --dm-text-secondary: #b0b0b0; /* body, labels */
+  --dm-text-muted:     #888888; /* placeholders, empty states */
+
+  /* Priority/status — muted gray-toned variants */
+  --dm-high-bg:     #3a2020; /* high priority background */
+  --dm-high-text:   #d4a0a0; /* high priority text */
+  --dm-med-bg:      #2e2510; /* medium priority background */
+  --dm-med-text:    #c8a96e; /* medium priority text */
+  --dm-low-bg:      #1a2e1a; /* low priority background */
+  --dm-low-text:    #7fba7f; /* low priority text */
+  --dm-overdue:     #c47070; /* overdue deadline text */
+
+  /* Status banners */
+  --dm-success-bg:    #1a2e1a;
+  --dm-success-border:#2d4a2d;
+  --dm-success-text:  #7fba7f;
+  --dm-error-bg:      #2e1a1a;
+  --dm-error-border:  #4a2d2d;
+  --dm-error-text:    #d4a0a0;
+}
+
+@theme inline {
+  /* Light mode tokens */
+  --color-lm-base:           var(--lm-base);
+  --color-lm-surface-1:      var(--lm-surface-1);
+  --color-lm-surface-2:      var(--lm-surface-2);
+  --color-lm-surface-3:      var(--lm-surface-3);
+  --color-lm-surface-4:      var(--lm-surface-4);
+  --color-lm-border:         var(--lm-border);
+  --color-lm-border-med:     var(--lm-border-med);
+  --color-lm-accent:         var(--lm-accent);
+  --color-lm-text-primary:   var(--lm-text-primary);
+  --color-lm-text-secondary: var(--lm-text-secondary);
+  --color-lm-text-muted:     var(--lm-text-muted);
+  --color-lm-high-bg:        var(--lm-high-bg);
+  --color-lm-high-text:      var(--lm-high-text);
+  --color-lm-med-bg:         var(--lm-med-bg);
+  --color-lm-med-text:       var(--lm-med-text);
+  --color-lm-low-bg:         var(--lm-low-bg);
+  --color-lm-low-text:       var(--lm-low-text);
+  --color-lm-overdue:        var(--lm-overdue);
+  --color-lm-success-bg:     var(--lm-success-bg);
+  --color-lm-success-border: var(--lm-success-border);
+  --color-lm-success-text:   var(--lm-success-text);
+  --color-lm-error-bg:       var(--lm-error-bg);
+  --color-lm-error-border:   var(--lm-error-border);
+  --color-lm-error-text:     var(--lm-error-text);
+
+  /* Dark mode tokens */
+  --color-dm-base:           var(--dm-base);
+  --color-dm-surface-1:      var(--dm-surface-1);
+  --color-dm-surface-2:      var(--dm-surface-2);
+  --color-dm-surface-3:      var(--dm-surface-3);
+  --color-dm-surface-4:      var(--dm-surface-4);
+  --color-dm-border:         var(--dm-border);
+  --color-dm-accent:         var(--dm-accent);
+  --color-dm-text-primary:   var(--dm-text-primary);
+  --color-dm-text-secondary: var(--dm-text-secondary);
+  --color-dm-text-muted:     var(--dm-text-muted);
+  --color-dm-high-bg:        var(--dm-high-bg);
+  --color-dm-high-text:      var(--dm-high-text);
+  --color-dm-med-bg:         var(--dm-med-bg);
+  --color-dm-med-text:       var(--dm-med-text);
+  --color-dm-low-bg:         var(--dm-low-bg);
+  --color-dm-low-text:       var(--dm-low-text);
+  --color-dm-overdue:        var(--dm-overdue);
+  --color-dm-success-bg:     var(--dm-success-bg);
+  --color-dm-success-border: var(--dm-success-border);
+  --color-dm-success-text:   var(--dm-success-text);
+  --color-dm-error-bg:       var(--dm-error-bg);
+  --color-dm-error-border:   var(--dm-error-border);
+  --color-dm-error-text:     var(--dm-error-text);
+}

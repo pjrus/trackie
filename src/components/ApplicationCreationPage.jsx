@@ -33,7 +33,6 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
       ...prev,
       [field]: value,
     }));
-    // Clear error for this field when user starts editing
     if (errors[field]) {
       setErrors((prev) => {
         const newErrors = { ...prev };
@@ -111,7 +110,6 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
     }
 
     setSubmitted(true);
-    // Show success message briefly before submitting
     setTimeout(() => {
       onSubmit(formData);
     }, 500);
@@ -119,20 +117,20 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white">
+      <div className="min-h-screen bg-lm-base dark:bg-dm-base text-lm-text-primary dark:text-dm-text-primary">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-4 flex justify-between items-center">
+        <div className="bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-4 sm:px-6 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold text-lm-text-primary dark:text-dm-text-primary">
               Create New Application
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-sm text-lm-text-muted dark:text-dm-text-muted mt-1">
               Enter the details about your job application
             </p>
           </div>
           <button
             onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-3xl"
+            className="text-lm-text-muted hover:text-lm-text-secondary dark:text-dm-text-muted dark:hover:text-dm-text-secondary text-3xl"
           >
             ×
           </button>
@@ -140,8 +138,8 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
         {/* Success Message */}
         {submitted && (
-          <div className="bg-green-50 dark:bg-green-900 border-b border-green-200 dark:border-green-800 px-6 py-4">
-            <p className="text-green-800 dark:text-green-100 font-medium">
+          <div className="bg-lm-success-bg dark:bg-dm-success-bg border-b border-lm-success-border dark:border-dm-success-border px-6 py-4">
+            <p className="text-lm-success-text dark:text-dm-success-text font-medium">
               Application created successfully!
             </p>
           </div>
@@ -149,7 +147,7 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
         {/* Main Content */}
         <div className="flex-1">
-          <div className="bg-gray-50 dark:bg-gray-950 max-w-4xl">
+          <div className="bg-lm-base dark:bg-dm-base max-w-4xl">
             <ApplicationForm
               app={formData}
               onUpdate={handleUpdate}
@@ -164,11 +162,11 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
 
           {/* Error Display */}
           {Object.keys(errors).length > 0 && (
-            <div className="mx-6 mt-4 p-4 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 rounded">
-              <p className="text-red-800 dark:text-red-100 font-medium mb-2">
+            <div className="mx-6 mt-4 p-4 bg-lm-error-bg dark:bg-dm-error-bg border border-lm-error-border dark:border-dm-error-border rounded">
+              <p className="text-lm-error-text dark:text-dm-error-text font-medium mb-2">
                 Please fix the following errors:
               </p>
-              <ul className="text-red-700 dark:text-red-200 text-sm space-y-1">
+              <ul className="text-lm-error-text dark:text-dm-error-text text-sm space-y-1 opacity-80">
                 {Object.entries(errors).map(([field, error]) => (
                   <li key={field}>• {error}</li>
                 ))}
@@ -177,17 +175,17 @@ export function ApplicationCreationPage({ onSubmit, onCancel, darkMode }) {
           )}
 
           {/* Footer */}
-          <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-6 py-4 flex justify-end gap-3 sticky bottom-0">
+          <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 flex justify-end gap-3 sticky bottom-0">
             <button
               onClick={onCancel}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={submitted}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-accent dark:text-dm-base rounded hover:opacity-90 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitted ? 'Creating...' : 'Create Application'}
             </button>

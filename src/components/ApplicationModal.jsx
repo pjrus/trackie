@@ -67,20 +67,20 @@ export function ApplicationModal({ app, onSave, onDelete, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 rounded shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-lm-surface-1 dark:bg-dm-surface-1 rounded shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center">
+        <div className="sticky top-0 bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-6 py-4 flex justify-between items-center">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <h2 className="text-xl font-semibold text-lm-text-primary dark:text-dm-text-primary">
               {editedApp.company}
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-lm-text-muted dark:text-dm-text-muted">
               {editedApp.role}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl"
+            className="text-lm-text-muted hover:text-lm-text-secondary dark:text-dm-text-muted dark:hover:text-dm-text-secondary text-2xl"
           >
             ×
           </button>
@@ -99,23 +99,23 @@ export function ApplicationModal({ app, onSave, onDelete, onClose }) {
         />
 
         {/* Footer */}
-        <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-6 py-4 flex justify-between gap-3">
+        <div className="border-t border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-2 px-6 py-4 flex justify-between gap-3">
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-4 py-2 bg-red-200 dark:bg-red-900 text-red-900 dark:text-red-100 rounded hover:bg-red-300 dark:hover:bg-red-800 font-medium"
+            className="px-4 py-2 bg-lm-error-bg dark:bg-dm-error-bg text-lm-error-text dark:text-dm-error-text border border-lm-error-border dark:border-dm-error-border rounded hover:opacity-80 font-medium"
           >
             Delete
           </button>
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-medium"
+              className="px-4 py-2 bg-blue-500 dark:bg-dm-accent text-white dark:text-dm-base rounded hover:bg-blue-600 dark:hover:opacity-90 font-medium"
             >
               Save
             </button>
@@ -126,17 +126,17 @@ export function ApplicationModal({ app, onSave, onDelete, onClose }) {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded shadow-lg p-6 max-w-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-lm-surface-1 dark:bg-dm-surface-1 rounded shadow-lg p-6 max-w-sm border border-lm-border dark:border-dm-border">
+            <h3 className="text-lg font-semibold text-lm-text-primary dark:text-dm-text-primary mb-4">
               Delete application?
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-lm-text-muted dark:text-dm-text-muted mb-6">
               This action cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-2 border border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary rounded hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
               >
                 Cancel
               </button>
@@ -145,7 +145,7 @@ export function ApplicationModal({ app, onSave, onDelete, onClose }) {
                   onDelete(editedApp.id);
                   onClose();
                 }}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 font-medium"
+                className="px-4 py-2 bg-lm-error-bg dark:bg-dm-error-bg text-lm-error-text dark:text-dm-error-text border border-lm-error-border dark:border-dm-error-border rounded hover:opacity-80 font-medium"
               >
                 Delete
               </button>

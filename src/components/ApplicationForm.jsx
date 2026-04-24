@@ -51,9 +51,11 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
     }
   };
 
+  const inputClass = "w-full px-3 py-2 border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary";
+
   const Field = ({ label, children }) => (
     <div className="mb-4">
-      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+      <label className="block text-sm font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
         {label}
       </label>
       {children}
@@ -66,7 +68,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+      className={inputClass}
     />
   );
 
@@ -79,7 +81,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
         onChange={onChange}
         onFocus={() => setIsExpanded(true)}
         placeholder={placeholder}
-        className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none transition-all duration-200 ${
+        className={`${inputClass} resize-none transition-all duration-200 ${
           isExpanded ? 'h-32' : 'h-20'
         }`}
       />
@@ -90,7 +92,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
     <select
       value={value}
       onChange={onChange}
-      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white appearance-none"
+      className={`${inputClass} appearance-none`}
     >
       {options.map((opt) => (
         <option key={opt} value={opt}>
@@ -103,13 +105,13 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
   return (
     <div className="w-full">
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 flex gap-4 px-6 py-2 bg-gray-50 dark:bg-gray-800">
+      <div className="border-b border-lm-border dark:border-dm-border flex gap-4 px-6 py-2 bg-lm-surface-2 dark:bg-dm-surface-2">
         <button
           onClick={() => setActiveTab('details')}
           className={`px-4 py-2 font-medium ${
             activeTab === 'details'
-              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'text-gray-600 dark:text-gray-400'
+              ? 'border-b-2 border-blue-500 dark:border-dm-accent text-blue-600 dark:text-dm-text-primary'
+              : 'text-lm-text-muted dark:text-dm-text-muted'
           }`}
         >
           Details
@@ -118,8 +120,8 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
           onClick={() => setActiveTab('timeline')}
           className={`px-4 py-2 font-medium ${
             activeTab === 'timeline'
-              ? 'border-b-2 border-blue-500 text-blue-600 dark:text-blue-400'
-              : 'text-gray-600 dark:text-gray-400'
+              ? 'border-b-2 border-blue-500 dark:border-dm-accent text-blue-600 dark:text-dm-text-primary'
+              : 'text-lm-text-muted dark:text-dm-text-muted'
           }`}
         >
           Timeline
@@ -182,7 +184,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   type="date"
                   value={formatDateForInput(app.applicationDeadline)}
                   onChange={(e) => onUpdate('applicationDeadline', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={inputClass}
                 />
               </Field>
               <Field label="Next Step Deadline">
@@ -190,7 +192,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   type="date"
                   value={formatDateForInput(app.nextStepDeadline)}
                   onChange={(e) => onUpdate('nextStepDeadline', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={inputClass}
                 />
               </Field>
             </div>
@@ -270,7 +272,7 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                     onChange={(e) => onUpdate('referral', e.target.checked)}
                     className="w-4 h-4"
                   />
-                  <span className="text-gray-700 dark:text-gray-300">
+                  <span className="text-lm-text-secondary dark:text-dm-text-secondary">
                     Have a referral
                   </span>
                 </label>
@@ -291,12 +293,12 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                 {app.tags.map((tag) => (
                   <div
                     key={tag}
-                    className="inline-flex items-center gap-2 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100 rounded text-sm"
+                    className="inline-flex items-center gap-2 px-2 py-1 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-secondary dark:text-dm-text-secondary rounded text-sm"
                   >
                     {tag}
                     <button
                       onClick={() => onRemoveTag(tag)}
-                      className="text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200 font-bold"
+                      className="text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
                     >
                       ×
                     </button>
@@ -310,11 +312,11 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
                   placeholder="Add tag..."
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={inputClass}
                 />
                 <button
                   onClick={handleAddTag}
-                  className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
                 >
                   Add
                 </button>
@@ -327,19 +329,19 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                 {app.links.map((link) => (
                   <div
                     key={link.id}
-                    className="flex items-center justify-between p-2 bg-gray-100 dark:bg-gray-800 rounded"
+                    className="flex items-center justify-between p-2 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
                   >
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:underline truncate"
+                      className="text-blue-600 dark:text-dm-accent hover:underline truncate"
                     >
                       {link.url}
                     </a>
                     <button
                       onClick={() => onRemoveLink(link.id)}
-                      className="ml-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                      className="ml-2 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary"
                     >
                       Remove
                     </button>
@@ -353,11 +355,11 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                   onChange={(e) => setNewLink(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddLink()}
                   placeholder="https://..."
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  className={inputClass}
                 />
                 <button
                   onClick={handleAddLink}
-                  className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90"
                 >
                   Add
                 </button>
@@ -369,14 +371,14 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
         {activeTab === 'timeline' && (
           <div className="space-y-4">
             <div className="space-y-3">
-              <h3 className="font-semibold text-gray-900 dark:text-white">
+              <h3 className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
                 Add Timeline Entry
               </h3>
               <input
                 type="date"
                 value={newTimelineDate}
                 onChange={(e) => setNewTimelineDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className={inputClass}
               />
               <input
                 type="text"
@@ -384,22 +386,22 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                 onChange={(e) => setNewTimelineDesc(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAddTimelineEntry()}
                 placeholder="e.g., Submitted OA"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className={inputClass}
               />
               <button
                 onClick={handleAddTimelineEntry}
-                className="w-full px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-medium"
+                className="w-full px-3 py-2 bg-lm-surface-3 dark:bg-dm-accent text-lm-text-primary dark:text-dm-base rounded hover:bg-lm-surface-4 dark:hover:opacity-90 font-medium"
               >
                 Add Entry
               </button>
             </div>
 
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="border-t border-lm-border dark:border-dm-border pt-4">
+              <h3 className="font-semibold text-lm-text-primary dark:text-dm-text-primary mb-3">
                 Timeline ({app.timeline.length})
               </h3>
               {app.timeline.length === 0 ? (
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+                <p className="text-lm-text-muted dark:text-dm-text-muted text-sm">
                   No timeline entries yet
                 </p>
               ) : (
@@ -409,19 +411,19 @@ export function ApplicationForm({ app, onUpdate, onAddTag, onRemoveTag, onAddLin
                     .map((entry) => (
                       <div
                         key={entry.id}
-                        className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-800 rounded"
+                        className="flex items-center justify-between p-3 bg-lm-surface-2 dark:bg-dm-surface-2 rounded border border-lm-border dark:border-dm-border"
                       >
                         <div>
-                          <div className="font-semibold text-gray-900 dark:text-white">
+                          <div className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
                             {formatDate(entry.date)}
                           </div>
-                          <div className="text-sm text-gray-700 dark:text-gray-300">
+                          <div className="text-sm text-lm-text-secondary dark:text-dm-text-secondary">
                             {entry.description}
                           </div>
                         </div>
                         <button
                           onClick={() => onRemoveTimelineEntry(entry.id)}
-                          className="ml-4 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-bold"
+                          className="ml-4 text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary font-bold"
                         >
                           ×
                         </button>

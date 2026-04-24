@@ -32,7 +32,7 @@ export function TableView({
   const SortHeader = ({ label, value }) => (
     <button
       onClick={() => onSortChange(value)}
-      className="text-left font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-2 py-1 rounded"
+      className="text-left font-semibold text-lm-text-secondary dark:text-dm-text-secondary hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3 px-2 py-1 rounded"
     >
       {label} {sortBy === value && '↓'}
     </button>
@@ -42,20 +42,20 @@ export function TableView({
     <div className="p-4 overflow-x-auto">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+          <tr className="border-b border-lm-border dark:border-dm-border bg-lm-surface-2 dark:bg-dm-surface-1">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Company
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Role
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Industry
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Type
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Stage
             </th>
             <th className="text-left p-2">
@@ -64,10 +64,10 @@ export function TableView({
             <th className="text-left p-2">
               <SortHeader label="Priority" value="priority" />
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Location
             </th>
-            <th className="text-left p-2 font-semibold text-gray-700 dark:text-gray-300">
+            <th className="text-left p-2 font-semibold text-lm-text-secondary dark:text-dm-text-secondary">
               Tags
             </th>
           </tr>
@@ -81,33 +81,33 @@ export function TableView({
               <tr
                 key={app.id}
                 onClick={() => onRowClick(app)}
-                className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900 cursor-pointer"
+                className="border-b border-lm-border dark:border-dm-border hover:bg-lm-surface-2 dark:hover:bg-dm-surface-2 cursor-pointer"
               >
-                <td className="p-2 font-semibold text-gray-900 dark:text-white">
+                <td className="p-2 font-semibold text-lm-text-primary dark:text-dm-text-primary">
                   {app.company}
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.role}
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.industry}
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.type}
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.stage}
                 </td>
                 <td
                   className={`p-2 font-semibold ${
                     overdue
-                      ? 'text-red-600 dark:text-red-400'
-                      : 'text-gray-700 dark:text-gray-300'
+                      ? 'text-lm-overdue dark:text-dm-overdue'
+                      : 'text-lm-text-secondary dark:text-dm-text-secondary'
                   }`}
                 >
                   {formatDate(app.nextStepDeadline)}
                   {daysText && (
-                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                    <div className="text-xs text-lm-text-muted dark:text-dm-text-muted">
                       {daysText}
                     </div>
                   )}
@@ -116,31 +116,31 @@ export function TableView({
                   <span
                     className={`inline-block px-2 py-1 rounded text-xs font-semibold ${
                       app.priority === 'High'
-                        ? 'bg-red-200 dark:bg-red-700 text-red-900 dark:text-red-100'
+                        ? 'bg-lm-high-bg dark:bg-dm-high-bg text-lm-high-text dark:text-dm-high-text'
                         : app.priority === 'Medium'
-                        ? 'bg-amber-200 dark:bg-amber-700 text-amber-900 dark:text-amber-100'
-                        : 'bg-green-200 dark:bg-green-700 text-green-900 dark:text-green-100'
+                        ? 'bg-lm-med-bg dark:bg-dm-med-bg text-lm-med-text dark:text-dm-med-text'
+                        : 'bg-lm-low-bg dark:bg-dm-low-bg text-lm-low-text dark:text-dm-low-text'
                     }`}
                   >
                     {app.priority}
                   </span>
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.location}
                 </td>
-                <td className="p-2 text-gray-700 dark:text-gray-300">
+                <td className="p-2 text-lm-text-secondary dark:text-dm-text-secondary">
                   {app.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                       {app.tags.slice(0, 2).map((tag) => (
                         <span
                           key={tag}
-                          className="inline-block px-2 py-0.5 text-xs rounded bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                          className="inline-block px-2 py-0.5 text-xs rounded bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-secondary dark:text-dm-text-secondary"
                         >
                           {tag}
                         </span>
                       ))}
                       {app.tags.length > 2 && (
-                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <span className="text-xs text-lm-text-muted dark:text-dm-text-muted">
                           +{app.tags.length - 2}
                         </span>
                       )}

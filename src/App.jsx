@@ -56,7 +56,6 @@ function App() {
   const [showHelp, setShowHelp] = useState(false);
   const [creationMode, setCreationMode] = useState(false);
 
-  // Persist preferences
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
@@ -73,7 +72,6 @@ function App() {
     localStorage.setItem('sortBy', sortBy);
   }, [sortBy]);
 
-  // Apply dark mode
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -86,13 +84,12 @@ function App() {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
-  // Define handlers early so they're available for early returns
   const handleAddApplication = () => {
     setCreationMode(true);
   };
 
   const handleCreationSubmit = (formData) => {
-    const id = addApplication(formData);
+    addApplication(formData);
     setCreationMode(false);
   };
 
@@ -110,9 +107,7 @@ function App() {
     );
   }
 
-  // Filter applications
   const filteredApps = applications.filter((app) => {
-    // Search filter
     if (filters.search) {
       const searchLower = filters.search.toLowerCase();
       const matchCompany = app.company?.toLowerCase().includes(searchLower);
@@ -123,23 +118,19 @@ function App() {
       if (!matchCompany && !matchRole && !matchTags) return false;
     }
 
-    // Due this week quick filter
     if (filters.dueThisWeek) {
       if (!dueThisWeek(app.nextStepDeadline)) return false;
     }
 
-    // Active only
     if (filters.activeOnly) {
       if (app.stage === 'Rejected' || app.stage === 'Withdrawn')
         return false;
     }
 
-    // Stage filter
     if (filters.stages.length > 0 && !filters.stages.includes(app.stage)) {
       return false;
     }
 
-    // Priority filter
     if (
       filters.priorities.length > 0 &&
       !filters.priorities.includes(app.priority)
@@ -147,7 +138,6 @@ function App() {
       return false;
     }
 
-    // Industry filter
     if (
       filters.industries.length > 0 &&
       !filters.industries.includes(app.industry)
@@ -155,12 +145,10 @@ function App() {
       return false;
     }
 
-    // Type filter
     if (filters.types.length > 0 && !filters.types.includes(app.type)) {
       return false;
     }
 
-    // Deadline range filter
     if (filters.deadlineFrom || filters.deadlineTo) {
       if (!app.nextStepDeadline) return false;
       const deadline = new Date(app.nextStepDeadline);
@@ -202,10 +190,10 @@ function App() {
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white">
+      <div className="min-h-screen bg-lm-base dark:bg-dm-base text-lm-text-primary dark:text-dm-text-primary">
         {/* Header */}
-        <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-4 flex justify-between items-center gap-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+        <div className="bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border px-4 sm:px-6 py-4 flex justify-between items-center gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-lm-text-primary dark:text-dm-text-primary">
             Job Application Tracker
           </h1>
           <div className="flex items-center gap-3 flex-wrap justify-end">
@@ -215,26 +203,26 @@ function App() {
             />
             <button
               onClick={handleAddApplication}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 font-medium whitespace-nowrap"
+              className="px-4 py-2 bg-lm-accent text-white dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:opacity-90 dark:hover:bg-dm-surface-4 font-medium whitespace-nowrap"
             >
               + New Application
             </button>
             <button
               onClick={() => setViewMode(viewMode === 'kanban' ? 'table' : 'kanban')}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-medium whitespace-nowrap"
+              className="px-4 py-2 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-primary dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium whitespace-nowrap"
             >
               {viewMode === 'kanban' ? '≡ Table' : '⊞ Kanban'}
             </button>
             <button
               onClick={() => setShowHelp(true)}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-medium"
+              className="px-4 py-2 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-primary dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium"
               title="Help & AI Templates"
             >
               ?
             </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 font-medium"
+              className="px-4 py-2 bg-lm-surface-3 dark:bg-dm-surface-3 text-lm-text-primary dark:text-dm-text-primary rounded hover:bg-lm-surface-4 dark:hover:bg-dm-surface-4 font-medium"
               title={darkMode ? 'Light mode' : 'Dark mode'}
             >
               {darkMode ? '○' : '●'}
@@ -249,7 +237,6 @@ function App() {
           onQuickFilter={handleQuickFilter}
         />
 
-        {/* Main Content */}
         <div>
           {viewMode === 'kanban' ? (
             <KanbanBoard
@@ -266,10 +253,9 @@ function App() {
           )}
         </div>
 
-        {/* Empty State */}
         {filteredApps.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
+            <p className="text-lm-text-muted dark:text-dm-text-muted text-lg mb-4">
               {applications.length === 0
                 ? 'No applications yet. Create your first one!'
                 : 'No applications match your filters.'}
@@ -277,7 +263,7 @@ function App() {
             {applications.length === 0 && (
               <button
                 onClick={handleAddApplication}
-                className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 font-medium"
+                className="px-6 py-2 bg-lm-accent text-white dark:bg-dm-surface-3 dark:text-dm-text-primary rounded hover:opacity-90 dark:hover:bg-dm-surface-4 font-medium"
               >
                 + New Application
               </button>
@@ -285,7 +271,6 @@ function App() {
           </div>
         )}
 
-        {/* Application modal */}
         {selectedApp && (
           <ApplicationModal
             app={selectedApp}
@@ -295,7 +280,6 @@ function App() {
           />
         )}
 
-        {/* Help modal */}
         {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
       </div>
     </div>

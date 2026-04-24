@@ -30,7 +30,7 @@ export function FilterBar({
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
-    <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
+    <div className="bg-lm-surface-1 dark:bg-dm-surface-1 border-b border-lm-border dark:border-dm-border p-4">
       <div className="space-y-4">
         {/* Search */}
         <input
@@ -40,7 +40,7 @@ export function FilterBar({
           onChange={(e) =>
             onFilterChange({ ...filters, search: e.target.value })
           }
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+          className="w-full px-3 py-2 border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary placeholder-lm-text-muted dark:placeholder-dm-text-muted"
         />
 
         {/* Quick filters */}
@@ -49,8 +49,8 @@ export function FilterBar({
             onClick={() => onQuickFilter('dueThisWeek')}
             className={`px-3 py-1 text-sm border rounded ${
               filters.dueThisWeek
-                ? 'bg-blue-100 dark:bg-blue-900 border-blue-300 dark:border-blue-700 text-blue-900 dark:text-blue-100'
-                : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-lm-surface-3 dark:bg-dm-accent/20 border-lm-surface-4 dark:border-dm-accent text-lm-text-primary dark:text-dm-text-primary'
+                : 'bg-lm-surface-2 dark:bg-dm-surface-2 border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3'
             }`}
           >
             Due this week
@@ -59,15 +59,15 @@ export function FilterBar({
             onClick={() => onQuickFilter('activeOnly')}
             className={`px-3 py-1 text-sm border rounded ${
               filters.activeOnly
-                ? 'bg-green-100 dark:bg-green-900 border-green-300 dark:border-green-700 text-green-900 dark:text-green-100'
-                : 'bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-lm-surface-3 dark:bg-dm-accent/20 border-lm-surface-4 dark:border-dm-accent text-lm-text-primary dark:text-dm-text-primary'
+                : 'bg-lm-surface-2 dark:bg-dm-surface-2 border-lm-border-med dark:border-dm-border text-lm-text-secondary dark:text-dm-text-secondary hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3'
             }`}
           >
             Active only
           </button>
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="px-3 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-2 dark:bg-dm-surface-2 text-lm-text-secondary dark:text-dm-text-secondary hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
           >
             {showAdvanced ? 'Hide filters' : 'More filters'}
           </button>
@@ -85,7 +85,7 @@ export function FilterBar({
                 activeOnly: false,
               })
             }
-            className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="px-3 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-2 dark:bg-dm-surface-2 text-lm-text-secondary dark:text-dm-text-secondary hover:bg-lm-surface-3 dark:hover:bg-dm-surface-3"
           >
             Clear all
           </button>
@@ -93,7 +93,7 @@ export function FilterBar({
 
         {/* Advanced filters */}
         {showAdvanced && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pt-3 border-t border-lm-border dark:border-dm-border">
             <FilterSelect
               label="Stage"
               options={STAGES}
@@ -119,7 +119,7 @@ export function FilterBar({
               onChange={(v) => onFilterChange({ ...filters, types: v })}
             />
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-xs font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
                 From
               </label>
               <input
@@ -131,11 +131,11 @@ export function FilterBar({
                     deadlineFrom: e.target.value,
                   })
                 }
-                className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+              <label className="block text-xs font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
                 To
               </label>
               <input
@@ -144,7 +144,7 @@ export function FilterBar({
                 onChange={(e) =>
                   onFilterChange({ ...filters, deadlineTo: e.target.value })
                 }
-                className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full px-2 py-1 text-sm border border-lm-border-med dark:border-dm-border rounded bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-primary dark:text-dm-text-primary"
               />
             </div>
           </div>
@@ -157,7 +157,7 @@ export function FilterBar({
 function FilterSelect({ label, options, value, onChange }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+      <label className="block text-xs font-semibold text-lm-text-secondary dark:text-dm-text-secondary mb-1">
         {label}
       </label>
       <div className="space-y-1 text-sm">
@@ -175,7 +175,7 @@ function FilterSelect({ label, options, value, onChange }) {
               }}
               className="w-4 h-4"
             />
-            <span className="text-gray-700 dark:text-gray-300">{opt}</span>
+            <span className="text-lm-text-secondary dark:text-dm-text-secondary">{opt}</span>
           </label>
         ))}
       </div>

@@ -20,17 +20,17 @@ export function SummaryBar({ applications }) {
   });
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 sm:px-6 py-3 sticky top-0 z-10">
-      <div className="flex flex-wrap gap-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+    <div className="border-b border-lm-border dark:border-dm-border bg-lm-surface-1 dark:bg-dm-surface-1 px-4 sm:px-6 py-3 sticky top-0 z-10">
+      <div className="flex flex-wrap gap-4 text-sm font-medium text-lm-text-secondary dark:text-dm-text-secondary">
         <div>
-          <span className="font-semibold text-gray-900 dark:text-white">
+          <span className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
             {activeCount}
           </span>{' '}
           active
         </div>
         {Object.entries(stageCounts).map(([stage, count]) => (
           <div key={stage}>
-            <span className="font-semibold text-gray-900 dark:text-white">
+            <span className="font-semibold text-lm-text-primary dark:text-dm-text-primary">
               {count}
             </span>{' '}
             {stage}

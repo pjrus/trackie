@@ -196,9 +196,9 @@ EMAIL THREAD:
 ];
 
 const FORMAT_BADGE = {
-  csv: { label: 'CSV output', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  json: { label: 'JSON output', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' },
-  instructions: { label: 'Instructions', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200' },
+  csv: { label: 'CSV output', color: 'bg-blue-100 text-blue-800 dark:bg-dm-surface-3 dark:text-dm-text-secondary' },
+  json: { label: 'JSON output', color: 'bg-purple-100 text-purple-800 dark:bg-dm-surface-3 dark:text-dm-text-secondary' },
+  instructions: { label: 'Instructions', color: 'bg-amber-100 text-amber-800 dark:bg-dm-surface-3 dark:text-dm-text-secondary' },
 };
 
 function TemplateCard({ template, onCopy, copied }) {
@@ -206,58 +206,58 @@ function TemplateCard({ template, onCopy, copied }) {
   const badge = FORMAT_BADGE[template.outputFormat];
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div className="border border-lm-border dark:border-dm-border bg-lm-surface-1 dark:bg-dm-surface-2">
       {/* Header row */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-gray-50 dark:hover:bg-gray-750"
+        className="w-full text-left px-5 py-4 flex items-start gap-3 hover:bg-lm-surface-2 dark:hover:bg-dm-surface-3"
       >
         <span className="text-2xl mt-0.5">{template.icon}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-gray-900 dark:text-white">{template.label}</span>
+            <span className="font-semibold text-lm-text-primary dark:text-dm-text-primary">{template.label}</span>
             <span className={`text-xs px-2 py-0.5 font-medium ${badge.color}`}>
               {badge.label}
             </span>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">{template.summary}</p>
+          <p className="text-sm text-lm-text-muted dark:text-dm-text-muted mt-0.5">{template.summary}</p>
         </div>
-        <span className="text-gray-400 text-lg mt-0.5 shrink-0">{expanded ? '▲' : '▼'}</span>
+        <span className="text-lm-text-muted dark:text-dm-text-muted text-lg mt-0.5 shrink-0">{expanded ? '▲' : '▼'}</span>
       </button>
 
       {/* Expanded body */}
       {expanded && (
-        <div className="border-t border-gray-200 dark:border-gray-700 px-5 py-4 space-y-4">
+        <div className="border-t border-lm-border dark:border-dm-border px-5 py-4 space-y-4">
           {/* When to use */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">When to use</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300">{template.when}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-lm-text-muted dark:text-dm-text-muted mb-1">When to use</p>
+            <p className="text-sm text-lm-text-secondary dark:text-dm-text-secondary">{template.when}</p>
           </div>
 
           {/* Prompt */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Prompt template</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-lm-text-muted dark:text-dm-text-muted">Prompt template</p>
               <button
                 onClick={() => onCopy(template.id, template.prompt)}
                 className={`text-xs px-3 py-1 font-medium border ${
                   copied === template.id
-                    ? 'bg-green-500 text-white border-green-500'
-                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600'
+                    ? 'bg-lm-success-text dark:bg-dm-success-bg text-white dark:text-dm-success-text border-lm-success-text dark:border-dm-success-border'
+                    : 'bg-lm-surface-1 dark:bg-dm-surface-3 text-lm-text-secondary dark:text-dm-text-secondary border-lm-border-med dark:border-dm-border hover:bg-lm-surface-2 dark:hover:bg-dm-surface-4'
                 }`}
               >
                 {copied === template.id ? '✓ Copied!' : 'Copy prompt'}
               </button>
             </div>
-            <pre className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-4 text-xs font-mono text-gray-800 dark:text-gray-200 whitespace-pre-wrap overflow-x-auto max-h-64 overflow-y-auto">
+            <pre className="bg-lm-surface-2 dark:bg-dm-surface-1 border border-lm-border dark:border-dm-border p-4 text-xs font-mono text-lm-text-secondary dark:text-dm-text-secondary whitespace-pre-wrap overflow-x-auto max-h-64 overflow-y-auto">
               {template.prompt}
             </pre>
           </div>
 
           {/* Tip */}
-          <div className="bg-amber-50 dark:bg-amber-900/30 border-l-4 border-amber-400 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400 mb-1">Then what?</p>
-            <p className="text-sm text-amber-800 dark:text-amber-300">{template.tip}</p>
+          <div className="bg-amber-50 dark:bg-dm-surface-2 border-l-4 border-amber-400 dark:border-dm-accent px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-dm-text-muted mb-1">Then what?</p>
+            <p className="text-sm text-amber-800 dark:text-dm-text-secondary">{template.tip}</p>
           </div>
         </div>
       )}
@@ -285,29 +285,29 @@ export function HelpModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-900 w-full max-w-3xl max-h-[92vh] flex flex-col border border-gray-300 dark:border-gray-600">
+      <div className="bg-lm-surface-1 dark:bg-dm-surface-1 w-full max-w-3xl max-h-[92vh] flex flex-col border border-lm-border-med dark:border-dm-border">
 
         {/* Modal header */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between shrink-0">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Help & AI Templates</h2>
+        <div className="border-b border-lm-border dark:border-dm-border px-6 py-4 flex items-center justify-between shrink-0">
+          <h2 className="text-xl font-bold text-lm-text-primary dark:text-dm-text-primary">Help & AI Templates</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-900 dark:hover:text-white text-2xl leading-none"
+            className="text-lm-text-muted hover:text-lm-text-primary dark:text-dm-text-muted dark:hover:text-dm-text-primary text-2xl leading-none"
           >
             ×
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700 px-6 flex gap-0 shrink-0 overflow-x-auto">
+        <div className="border-b border-lm-border dark:border-dm-border px-6 flex gap-0 shrink-0 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors ${
                 activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                  : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'border-blue-500 dark:border-dm-accent text-blue-600 dark:text-dm-text-primary'
+                  : 'border-transparent text-lm-text-muted dark:text-dm-text-muted hover:text-lm-text-secondary dark:hover:text-dm-text-secondary'
               }`}
             >
               {tab.label}
@@ -320,11 +320,11 @@ export function HelpModal({ onClose }) {
 
           {/* ── HOW TO USE ── */}
           {activeTab === 'how' && (
-            <div className="space-y-6 text-sm text-gray-700 dark:text-gray-300">
+            <div className="space-y-6 text-sm text-lm-text-secondary dark:text-dm-text-secondary">
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Overview</h3>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Overview</h3>
                 <p className="mb-3">
-                  Job Application Tracker is a fully local, single-page app — <strong className="text-gray-900 dark:text-white">no account, no server, no data leaves your browser</strong>. Everything is saved to your browser's localStorage.
+                  Job Application Tracker is a fully local, single-page app — <strong className="text-lm-text-primary dark:text-dm-text-primary">no account, no server, no data leaves your browser</strong>. Everything is saved to your browser's localStorage.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
@@ -333,59 +333,59 @@ export function HelpModal({ onClose }) {
                     { icon: '🔍', title: 'Filtering', desc: 'Search by company, role, or tags. Filter by stage, priority, industry, type, or date range.' },
                     { icon: '📤', title: 'Import / Export', desc: 'Export your data as CSV, JSON, or a .ics calendar. Import from CSV or JSON to bulk-add applications.' },
                   ].map((item) => (
-                    <div key={item.title} className="border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-800">
+                    <div key={item.title} className="border border-lm-border dark:border-dm-border p-4 bg-lm-surface-2 dark:bg-dm-surface-2">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-lg">{item.icon}</span>
-                        <span className="font-semibold text-gray-900 dark:text-white text-sm">{item.title}</span>
+                        <span className="font-semibold text-lm-text-primary dark:text-dm-text-primary text-sm">{item.title}</span>
                       </div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{item.desc}</p>
+                      <p className="text-xs text-lm-text-muted dark:text-dm-text-muted">{item.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Adding your first application</h3>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Adding your first application</h3>
                 <ol className="space-y-2 list-decimal list-inside">
-                  <li>Click <strong className="text-gray-900 dark:text-white">+ New Application</strong> in the top bar.</li>
+                  <li>Click <strong className="text-lm-text-primary dark:text-dm-text-primary">+ New Application</strong> in the top bar.</li>
                   <li>A modal opens with a blank form. Fill in Company, Role, and Stage at minimum.</li>
-                  <li>Set a <strong className="text-gray-900 dark:text-white">Next Step Deadline</strong> so the app can alert you to overdue items (shown in red).</li>
-                  <li>Add <strong className="text-gray-900 dark:text-white">Tags</strong> (e.g. <code className="bg-gray-100 dark:bg-gray-800 px-1">quant</code>, <code className="bg-gray-100 dark:bg-gray-800 px-1">referral</code>) to make searching easier.</li>
-                  <li>Use the <strong className="text-gray-900 dark:text-white">Timeline</strong> tab to log dated events as your application progresses.</li>
-                  <li>Click <strong className="text-gray-900 dark:text-white">Save</strong>. The card appears on the board in the correct stage column.</li>
+                  <li>Set a <strong className="text-lm-text-primary dark:text-dm-text-primary">Next Step Deadline</strong> so the app can alert you to overdue items (shown in red).</li>
+                  <li>Add <strong className="text-lm-text-primary dark:text-dm-text-primary">Tags</strong> (e.g. <code className="bg-lm-surface-2 dark:bg-dm-surface-2 px-1">quant</code>, <code className="bg-lm-surface-2 dark:bg-dm-surface-2 px-1">referral</code>) to make searching easier.</li>
+                  <li>Use the <strong className="text-lm-text-primary dark:text-dm-text-primary">Timeline</strong> tab to log dated events as your application progresses.</li>
+                  <li>Click <strong className="text-lm-text-primary dark:text-dm-text-primary">Save</strong>. The card appears on the board in the correct stage column.</li>
                 </ol>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Colour coding</h3>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Colour coding</h3>
                 <div className="flex flex-wrap gap-2 text-xs font-medium">
                   <span className="px-3 py-1 bg-red-500 text-white">High priority</span>
                   <span className="px-3 py-1 bg-amber-400 text-white">Medium priority</span>
                   <span className="px-3 py-1 bg-green-500 text-white">Low priority</span>
                   <span className="px-3 py-1 bg-red-600 text-white">Overdue deadline</span>
                 </div>
-                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                <p className="mt-2 text-xs text-lm-text-muted dark:text-dm-text-muted">
                   Cards and rows are tinted by priority. Deadlines that have passed today are shown in red.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Quick filters explained</h3>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Quick filters explained</h3>
                 <dl className="space-y-2">
-                  <div><dt className="font-semibold text-gray-900 dark:text-white inline">Due this week — </dt><dd className="inline">Shows applications whose Next Step Deadline falls within the next 7 days from today.</dd></div>
-                  <div><dt className="font-semibold text-gray-900 dark:text-white inline">Active only — </dt><dd className="inline">Hides Rejected and Withdrawn applications so you can focus on live opportunities.</dd></div>
+                  <div><dt className="font-semibold text-lm-text-primary dark:text-dm-text-primary inline">Due this week — </dt><dd className="inline">Shows applications whose Next Step Deadline falls within the next 7 days from today.</dd></div>
+                  <div><dt className="font-semibold text-lm-text-primary dark:text-dm-text-primary inline">Active only — </dt><dd className="inline">Hides Rejected and Withdrawn applications so you can focus on live opportunities.</dd></div>
                 </dl>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Calendar export (.ics)</h3>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Calendar export (.ics)</h3>
                 <p>Export your next-step deadlines to any calendar app (Google Calendar, Apple Calendar, Outlook). Each event is titled <em>Company – Role</em> with the stage and description in the body. Open the .ics file after downloading to import it.</p>
               </div>
 
               <div>
-                <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3">Data persistence</h3>
-                <p className="mb-2">Everything is stored in your browser's localStorage under the key <code className="bg-gray-100 dark:bg-gray-800 px-1">applications</code>. Your data survives page refreshes and browser restarts — but is <strong className="text-gray-900 dark:text-white">tied to this browser on this device</strong>.</p>
-                <p className="text-amber-700 dark:text-amber-400 font-medium">💡 Tip: Export to JSON regularly as a backup. Re-import it on a new device to restore your data.</p>
+                <h3 className="text-base font-bold text-lm-text-primary dark:text-dm-text-primary mb-3">Data persistence</h3>
+                <p className="mb-2">Everything is stored in your browser's localStorage under the key <code className="bg-lm-surface-2 dark:bg-dm-surface-2 px-1">applications</code>. Your data survives page refreshes and browser restarts — but is <strong className="text-lm-text-primary dark:text-dm-text-primary">tied to this browser on this device</strong>.</p>
+                <p className="text-amber-700 dark:text-dm-text-secondary font-medium">💡 Tip: Export to JSON regularly as a backup. Re-import it on a new device to restore your data.</p>
               </div>
             </div>
           )}
@@ -393,13 +393,13 @@ export function HelpModal({ onClose }) {
           {/* ── AI TEMPLATES ── */}
           {activeTab === 'templates' && (
             <div className="space-y-4">
-              <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 p-4 text-sm">
-                <p className="font-semibold text-blue-900 dark:text-blue-200 mb-1">How to use these templates</p>
-                <ol className="text-blue-800 dark:text-blue-300 space-y-1 list-decimal list-inside text-sm">
+              <div className="bg-blue-50 dark:bg-dm-surface-2 border border-blue-200 dark:border-dm-border p-4 text-sm">
+                <p className="font-semibold text-blue-900 dark:text-dm-text-primary mb-1">How to use these templates</p>
+                <ol className="text-blue-800 dark:text-dm-text-secondary space-y-1 list-decimal list-inside text-sm">
                   <li>Choose the template that fits your situation below.</li>
                   <li>Click <strong>Copy prompt</strong> to copy it to your clipboard.</li>
                   <li>Open your AI assistant (<a href="https://claude.ai" target="_blank" rel="noreferrer" className="underline">Claude</a>, <a href="https://chat.openai.com" target="_blank" rel="noreferrer" className="underline">ChatGPT</a>, Gemini, etc.).</li>
-                  <li>Paste the prompt, replace the <code className="bg-blue-100 dark:bg-blue-900 px-1">[PLACEHOLDER]</code> sections with your real content, and send.</li>
+                  <li>Paste the prompt, replace the <code className="bg-blue-100 dark:bg-dm-surface-3 px-1">[PLACEHOLDER]</code> sections with your real content, and send.</li>
                   <li>Copy the AI's output and import it using <strong>Import / Export</strong> in the tracker header.</li>
                 </ol>
               </div>
@@ -420,20 +420,20 @@ export function HelpModal({ onClose }) {
           {/* ── CSV FORMAT ── */}
           {activeTab === 'csv' && (
             <div className="space-y-5 text-sm">
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-lm-text-secondary dark:text-dm-text-secondary">
                 Use this reference when writing AI prompts or creating CSV files manually. The first row must be the header exactly as shown.
               </p>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-xs border-collapse">
                   <thead>
-                    <tr className="bg-gray-100 dark:bg-gray-800">
-                      <th className="border border-gray-300 dark:border-gray-600 px-3 py-2 text-left font-semibold text-gray-900 dark:text-white">Column</th>
-                      <th className="border border-gray-300 dark:border-gray-600 px-3 py-2 text-left font-semibold text-gray-900 dark:text-white">Required?</th>
-                      <th className="border border-gray-300 dark:border-gray-600 px-3 py-2 text-left font-semibold text-gray-900 dark:text-white">Allowed values / Format</th>
+                    <tr className="bg-lm-surface-2 dark:bg-dm-surface-2">
+                      <th className="border border-lm-border-med dark:border-dm-border px-3 py-2 text-left font-semibold text-lm-text-primary dark:text-dm-text-primary">Column</th>
+                      <th className="border border-lm-border-med dark:border-dm-border px-3 py-2 text-left font-semibold text-lm-text-primary dark:text-dm-text-primary">Required?</th>
+                      <th className="border border-lm-border-med dark:border-dm-border px-3 py-2 text-left font-semibold text-lm-text-primary dark:text-dm-text-primary">Allowed values / Format</th>
                     </tr>
                   </thead>
-                  <tbody className="text-gray-700 dark:text-gray-300">
+                  <tbody className="text-lm-text-secondary dark:text-dm-text-secondary">
                     {[
                       ['Company', 'Yes', 'Any text'],
                       ['Role', 'Yes', 'Any text'],
@@ -455,10 +455,10 @@ export function HelpModal({ onClose }) {
                       ['Referrer Name', 'No', 'Any text, or blank'],
                       ['Date Added', 'No', 'YYYY-MM-DD (defaults to today if blank)'],
                     ].map(([col, req, vals]) => (
-                      <tr key={col} className="even:bg-gray-50 dark:even:bg-gray-800/50">
-                        <td className="border border-gray-200 dark:border-gray-700 px-3 py-1.5 font-mono font-semibold text-gray-900 dark:text-white">{col}</td>
-                        <td className="border border-gray-200 dark:border-gray-700 px-3 py-1.5">{req}</td>
-                        <td className="border border-gray-200 dark:border-gray-700 px-3 py-1.5">{vals}</td>
+                      <tr key={col} className="even:bg-lm-surface-2 dark:even:bg-dm-surface-2">
+                        <td className="border border-lm-border dark:border-dm-border px-3 py-1.5 font-mono font-semibold text-lm-text-primary dark:text-dm-text-primary">{col}</td>
+                        <td className="border border-lm-border dark:border-dm-border px-3 py-1.5">{req}</td>
+                        <td className="border border-lm-border dark:border-dm-border px-3 py-1.5">{vals}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -466,16 +466,16 @@ export function HelpModal({ onClose }) {
               </div>
 
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">Sample CSV (copy this header when pasting AI output)</p>
-                <pre className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-4 text-xs font-mono text-gray-800 dark:text-gray-200 whitespace-pre overflow-x-auto">
+                <p className="text-xs font-semibold uppercase tracking-wide text-lm-text-muted dark:text-dm-text-muted mb-2">Sample CSV (copy this header when pasting AI output)</p>
+                <pre className="bg-lm-surface-2 dark:bg-dm-surface-1 border border-lm-border dark:border-dm-border p-4 text-xs font-mono text-lm-text-secondary dark:text-dm-text-secondary whitespace-pre overflow-x-auto">
                   {SAMPLE_CSV}
                 </pre>
                 <button
                   onClick={() => handleCopy('sample-csv', SAMPLE_CSV)}
                   className={`mt-2 text-xs px-3 py-1 border font-medium ${
                     copied === 'sample-csv'
-                      ? 'bg-green-500 text-white border-green-500'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'bg-lm-success-text dark:bg-dm-success-bg text-white dark:text-dm-success-text border-lm-success-text dark:border-dm-success-border'
+                      : 'bg-lm-surface-1 dark:bg-dm-surface-2 text-lm-text-secondary dark:text-dm-text-secondary border-lm-border-med dark:border-dm-border hover:bg-lm-surface-2 dark:hover:bg-dm-surface-3'
                   }`}
                 >
                   {copied === 'sample-csv' ? '✓ Copied!' : 'Copy sample CSV'}
@@ -486,7 +486,7 @@ export function HelpModal({ onClose }) {
 
           {/* ── FAQ ── */}
           {activeTab === 'faq' && (
-            <div className="space-y-5 text-sm text-gray-700 dark:text-gray-300">
+            <div className="space-y-5 text-sm text-lm-text-secondary dark:text-dm-text-secondary">
               {[
                 {
                   q: 'Will my data be lost if I clear my browser cache?',
@@ -521,8 +521,8 @@ export function HelpModal({ onClose }) {
                   a: 'Download the file, then open it with your calendar app. On macOS, double-click the .ics file to import to Apple Calendar. On Windows, open with Outlook. For Google Calendar, go to Settings → Import.',
                 },
               ].map(({ q, a }) => (
-                <div key={q} className="border-b border-gray-200 dark:border-gray-700 pb-4 last:border-0">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-1">{q}</p>
+                <div key={q} className="border-b border-lm-border dark:border-dm-border pb-4 last:border-0">
+                  <p className="font-semibold text-lm-text-primary dark:text-dm-text-primary mb-1">{q}</p>
                   <p>{a}</p>
                 </div>
               ))}
@@ -532,10 +532,10 @@ export function HelpModal({ onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-end shrink-0 bg-gray-50 dark:bg-gray-800">
+        <div className="border-t border-lm-border dark:border-dm-border px-6 py-4 flex justify-end shrink-0 bg-lm-surface-2 dark:bg-dm-surface-2">
           <button
             onClick={onClose}
-            className="px-5 py-2 bg-gray-800 dark:bg-gray-100 text-white dark:text-gray-900 font-medium hover:bg-gray-700 dark:hover:bg-gray-200"
+            className="px-5 py-2 bg-lm-text-primary dark:bg-dm-accent text-lm-surface-1 dark:text-dm-base font-medium hover:opacity-90"
           >
             Close
           </button>
