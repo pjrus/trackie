@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/controls";
 import { Input, Label } from "@/components/ui/form-controls";
 import { Separator } from "@/components/ui/display";
+import { useWorkspace } from "@/components/workspace-provider";
 
 function Group<T extends string>({
   title,
@@ -47,13 +48,8 @@ function Group<T extends string>({
   );
 }
 
-export function FilterBar({
-  filters,
-  onChange,
-}: {
-  filters: ApplicationFilters;
-  onChange: (filters: ApplicationFilters) => void;
-}) {
+export function FilterBar() {
+  const { filters, setFilters: onChange } = useWorkspace();
   const toggleArray = <
     K extends "stages" | "priorities" | "industries" | "types",
   >(

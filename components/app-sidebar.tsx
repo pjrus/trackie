@@ -1,7 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
 import { Download, HelpCircle, KanbanSquare, List, Plus, Settings } from "lucide-react";
-import type { Application, ViewMode } from "@/lib/types";
+import { useWorkspace } from "@/components/workspace-provider";
 import { TrackieLogo } from "@/components/trackie-logo";
 import { ImportExport } from "@/components/import-export";
 import { HelpDialog } from "@/components/help-dialog";
@@ -20,25 +24,15 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar({
-  view,
-  onViewChange,
-  applications,
-  onImport,
-  notify,
-  theme,
-  setTheme,
-  onNewApplication,
-}: {
-  view: ViewMode;
-  onViewChange: (view: ViewMode) => void;
-  applications: Application[];
-  onImport: (apps: Application[]) => void;
-  notify: (message: string) => void;
-  theme?: string;
-  setTheme: (theme: string) => void;
-  onNewApplication: () => void;
-}) {
+const VIEWS = [
+  { href: "/kanban", label: "Kanban", icon: KanbanSquare },
+  { href: "/table", label: "Table", icon: List },
+] as const;
+
+export function AppSidebar() {
+  const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const { applications, addApplications, openNewApplication } = useWorkspace();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -47,7 +41,10 @@ export function AppSidebar({
         </div>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={onNewApplication} tooltip="New application">
+            <SidebarMenuButton
+              onClick={openNewApplication}
+              tooltip="New application"
+            >
               <Plus />
               <span>New application</span>
             </SidebarMenuButton>
@@ -59,26 +56,20 @@ export function AppSidebar({
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={view === "kanban"}
-                  onClick={() => onViewChange("kanban")}
-                  tooltip="Kanban"
-                >
-                  <KanbanSquare />
-                  <span>Kanban</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive={view === "table"}
-                  onClick={() => onViewChange("table")}
-                  tooltip="Table"
-                >
-                  <List />
-                  <span>Table</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {VIEWS.map(({ href, label, icon: Icon }) => (
+                <SidebarMenuItem key={href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === href}
+                    tooltip={label}
+                  >
+                    <Link href={href}>
+                      <Icon />
+                      <span>{label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -88,8 +79,8 @@ export function AppSidebar({
           <SidebarMenuItem>
             <ImportExport
               applications={applications}
-              onImport={onImport}
-              notify={notify}
+              onImport={addApplications}
+              notify={(message) => toast.success(message)}
               trigger={
                 <SidebarMenuButton tooltip="Import / Export">
                   <Download />

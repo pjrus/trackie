@@ -14,8 +14,12 @@ npm run build
 
 ## Architecture
 
-- `app/` contains the sole public route and global theme tokens.
-- `components/` contains the dashboard, workflows and shadcn-style primitives.
+- `app/` contains the routes and global theme tokens. `app/(workspace)/` holds
+  the shared workspace shell, with `kanban/` and `table/` supplying their own
+  layout and page; `/` redirects to whichever view was used last.
+- `components/workspace-provider.tsx` shares applications, filters and sort
+  order across the workspace layouts via context.
+- `components/` also contains the workflows and shadcn-style primitives.
 - `hooks/use-applications.ts` owns localStorage-backed CRUD actions.
 - `lib/applications.ts` centralises validation, migration, dates, filtering and sorting.
 - `lib/import-export.ts` owns CSV, JSON and ICS conversion and import previews.
