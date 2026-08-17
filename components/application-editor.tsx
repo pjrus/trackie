@@ -45,8 +45,12 @@ import {
 } from "@/components/ui/controls";
 import { Input, Label, Textarea } from "@/components/ui/form-controls";
 
-/** Header, form and footer share one centred column inside full-width chrome. */
-const CONTENT_COLUMN = "mx-auto w-full max-w-3xl";
+/**
+ * Header, form and footer share one centred column inside full-width chrome:
+ * roughly two thirds of the screen, going full width once there is no room to
+ * give away.
+ */
+const CONTENT_COLUMN = "mx-auto w-full lg:w-2/3";
 
 function Field({
   label,
@@ -192,24 +196,28 @@ export function ApplicationEditor({
 
   return (
     <>
-      <div className="mx-auto flex min-h-screen w-full flex-col">
+      <div className="mx-auto flex min-h-screen w-full flex-col bg-card">
         {/* Full-width bar. The arrow is taken out of flow at the left edge so
             the title lines up with the centred content column below it. */}
-        <header className="sticky top-0 z-20 border-b bg-card px-5 py-5 sm:px-8">
+        {/* No padding on the bar itself: the column measures its share of the
+            full width, exactly as the form below does. */}
+        <header className="sticky top-0 z-20 border-b bg-card py-5">
           <div className="relative">
             <Button
               type="button"
               size="icon"
               variant="ghost"
-              className="absolute left-0 top-0.5"
+              className="absolute left-5 top-0.5 sm:left-8"
               onClick={requestClose}
               aria-label="Back to dashboard"
             >
               <ArrowLeft className="size-4" />
             </Button>
-            {/* lg:pl-8 matches the form's own inset so the title and the first
-                field share a left edge once the column is centred. */}
-            <div className={`${CONTENT_COLUMN} pl-11 lg:pl-8`}>
+            {/* Below lg the column is full width, so the title steps aside for
+                the arrow; from lg it shares the form's inset. */}
+            <div
+              className={`${CONTENT_COLUMN} px-5 pl-16 sm:px-8 sm:pl-20 lg:pl-8`}
+            >
               <p className="text-xs font-bold uppercase tracking-[.2em] text-primary">
                 {application ? "Application record" : "New application"}
               </p>
@@ -538,9 +546,9 @@ export function ApplicationEditor({
             </div>
           </Section>
         </form>
-        <footer className="sticky bottom-0 z-20 border-t bg-card px-5 py-4 sm:px-8">
+        <footer className="sticky bottom-0 z-20 border-t bg-card py-4">
           <div
-            className={`${CONTENT_COLUMN} flex items-center justify-between gap-3`}
+            className={`${CONTENT_COLUMN} flex items-center justify-between gap-3 px-5 sm:px-8`}
           >
             <div>
               {application && onDelete ? (

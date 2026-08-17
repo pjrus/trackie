@@ -61,12 +61,7 @@ function LoadingWorkspace() {
         </div>
       </div>
       <main className="flex-1 p-6 lg:p-8">
-        <div className="grid grid-cols-4 gap-px overflow-hidden rounded-lg border">
-          {Array.from({ length: 4 }, (_, index) => (
-            <Skeleton className="h-20 rounded-none" key={index} />
-          ))}
-        </div>
-        <Skeleton className="mt-6 h-11 w-full" />
+        <Skeleton className="h-11 w-full" />
         <div className="mt-6 flex gap-4 overflow-hidden">
           {Array.from({ length: 4 }, (_, index) => (
             <Skeleton className="h-96 w-80 shrink-0" key={index} />
@@ -151,7 +146,7 @@ export function Dashboard() {
               {view === "kanban" ? "Kanban board" : "Applications"}
             </h1>
           </header>
-          <Summary applications={filtered} />
+          {view === "table" ? <Summary applications={filtered} /> : null}
           <FilterBar filters={filters} onChange={setFilters} />
           <main className="pb-12">
             {filtered.length ? (
