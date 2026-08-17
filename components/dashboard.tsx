@@ -1,14 +1,14 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo } from "react";
 import { BriefcaseBusiness, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import {
   filterApplications,
   normaliseFilters,
   sortApplications,
-  type ApplicationFormValues,
 } from "@/lib/applications";
 import { DEFAULT_FILTERS, STORAGE_KEYS } from "@/lib/constants";
 import type {
@@ -21,7 +21,6 @@ import type {
 import { useApplications } from "@/hooks/use-applications";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import { AppSidebar } from "@/components/app-sidebar";
-import { ApplicationEditor } from "@/components/application-editor";
 import { FilterBar } from "@/components/filter-bar";
 import { KanbanBoard } from "@/components/kanban-board";
 import { Summary } from "@/components/summary";
@@ -79,14 +78,9 @@ function LoadingWorkspace() {
 }
 
 export function Dashboard() {
-  const {
-    applications,
-    isLoaded,
-    addApplications,
-    updateApplication,
-    deleteApplication,
-    moveApplication,
-  } = useApplications();
+  const router = useRouter();
+  const { applications, isLoaded, addApplications, moveApplication } =
+    useApplications();
   const [view, setView] = usePersistedState<ViewMode>(
     STORAGE_KEYS.view,
     "kanban",
@@ -102,8 +96,6 @@ export function Dashboard() {
     "deadline",
     normaliseSort,
   );
-  const [editorOpen, setEditorOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
   const deferredSearch = useDeferredValue(filters.search);
   const { theme, resolvedTheme, setTheme } = useTheme();
 
@@ -130,34 +122,9 @@ export function Dashboard() {
     () => sortApplications(filtered, sortBy),
     [filtered, sortBy],
   );
-  const selected = selectedId
-    ? (applications.find((app) => app.id === selectedId) ?? null)
-    : null;
-  const openNew = () => {
-    setSelectedId(null);
-    setEditorOpen(true);
-  };
-  const openApplication = (app: Application) => {
-    setSelectedId(app.id);
-    setEditorOpen(true);
-  };
-  const save = (values: ApplicationFormValues) => {
-    if (selectedId) {
-      updateApplication(selectedId, values);
-      toast.success("Application updated");
-    } else {
-      addApplications([values]);
-      toast.success("Application added");
-    }
-    setEditorOpen(false);
-  };
-  const remove = () => {
-    if (!selectedId) return;
-    deleteApplication(selectedId);
-    setSelectedId(null);
-    setEditorOpen(false);
-    toast.success("Application deleted");
-  };
+  const openNew = () => router.push("/applications/new");
+  const openApplication = (app: Application) =>
+    router.push(`/applications/${app.id}`);
   const move = (id: string, stage: Stage) => {
     moveApplication(id, stage);
     toast.success(`Moved to ${stage}`);
@@ -237,13 +204,6 @@ export function Dashboard() {
             )}
           </main>
         </SidebarInset>
-        <ApplicationEditor
-          open={editorOpen}
-          application={selected}
-          onOpenChange={setEditorOpen}
-          onSave={save}
-          onDelete={selected ? remove : undefined}
-        />
       </SidebarProvider>
     </TooltipProvider>
   );

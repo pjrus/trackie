@@ -2,17 +2,14 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ApplicationEditor } from "@/components/application-editor";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 describe("ApplicationEditor", () => {
   it("validates identity fields and creates a role-only application", async () => {
     const onSave = vi.fn();
-    render(
-      <ApplicationEditor
-        open
-        application={null}
-        onOpenChange={() => {}}
-        onSave={onSave}
-      />,
-    );
+    render(<ApplicationEditor application={null} onSave={onSave} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Add application" }));
     expect(await screen.findByText("Enter a company or role")).toBeVisible();

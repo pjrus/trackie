@@ -82,7 +82,7 @@ export function FilterBar({
     advancedCount > 0;
   return (
     <div className="flex flex-col gap-3 px-4 py-5 lg:flex-row lg:items-center lg:px-8">
-      <div className="relative min-w-0 flex-1">
+      <div className="relative min-w-0 max-w-xs flex-1">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="h-11 bg-card pl-10"
