@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #f4f0e8;
+  --foreground: #20231f;
+  --card: #fbf8f2;
+  --card-foreground: #20231f;
+  --popover: #fffdf8;
+  --popover-foreground: #20231f;
+  --primary: #315c42;
+  --primary-foreground: #fbf8f2;
+  --secondary: #e9e3d8;
+  --secondary-foreground: #272b26;
+  --muted: #e9e3d8;
+  --muted-foreground: #696c65;
+  --accent: #dce8dc;
+  --accent-foreground: #264b35;
+  --destructive: #a13e34;
+  --border: #d8d1c5;
+  --input: #cfc7ba;
+  --ring: #4f7a5f;
+}
+
+.dark {
+  --background: #191c19;
+  --foreground: #ecebe5;
+  --card: #202420;
+  --card-foreground: #ecebe5;
+  --popover: #252a25;
+  --popover-foreground: #ecebe5;
+  --primary: #94bea0;
+  --primary-foreground: #142118;
+  --secondary: #2b302b;
+  --secondary-foreground: #ecebe5;
+  --muted: #2d322d;
+  --muted-foreground: #a9afa8;
+  --accent: #314a38;
+  --accent-foreground: #dfece2;
+  --destructive: #d46e62;
+  --border: #3b413b;
+  --input: #4a514a;
+  --ring: #94bea0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+* {
+  border-color: var(--border);
+}
+html {
+  background: var(--background);
+}
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+}
+button,
+[role="button"] {
+  cursor: pointer;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

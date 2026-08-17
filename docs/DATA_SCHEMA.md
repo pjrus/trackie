@@ -4,7 +4,7 @@
 
 ```javascript
 {
-  id: string                      // Auto-generated, do not edit
+  id: string                      // UUID for new records; legacy string IDs remain valid
   dateAdded: ISO 8601 string     // Auto-generated
   company: string                 // Company name
   role: string                    // Job title
@@ -42,7 +42,7 @@
 
 ```javascript
 {
-  id: Date.now().toString(),
+  id: crypto.randomUUID(),
   dateAdded: new Date().toISOString(),
   company: '',
   role: '',

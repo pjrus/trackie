@@ -7,11 +7,13 @@
 **Columns:** Company, Role, Industry, Type, Stage, Application Deadline, Next Step Deadline, Next Step Description, Priority, Location, Salary, Job URL, Notes, Why Applied, Tags, Confidence, Referral, Referrer Name, Date Added
 
 **Special handling:**
+
 - Tags semicolon-separated (e.g., `FAANG;remote`)
 - Referral column: "Yes"/"No"
 - Fields with commas/quotes auto-escaped
 
 **Example:**
+
 ```
 Company,Role,Stage,Priority
 Google,SWE,Applied,High
@@ -24,7 +26,7 @@ Jane Street,Trader,Phone Screen,High
 
 Array of application objects with all fields (includes timeline/links not in CSV).
 
-**Re-importing:** IDs regenerated, dates preserved.
+**Re-importing:** IDs are regenerated with `crypto.randomUUID()` and dates are preserved.
 
 See [DATA_SCHEMA.md](DATA_SCHEMA.md) for object structure.
 
@@ -43,35 +45,41 @@ Each application becomes calendar event dated on next step deadline.
 **How:** Click Export → Import applications → Select CSV or JSON
 
 **CSV Requirements:**
+
 - Header row with column names (order doesn't matter)
 - Columns map to application fields
 - Missing columns use defaults from [DATA_SCHEMA.md](DATA_SCHEMA.md)
 
-**Behavior:**
-- Applications merge with existing data (no replacement)
-- New IDs generated
+**Behaviour:**
+
+- Each row is validated and previewed before import
+- Valid rows and row-specific errors are shown together
+- Applications merge with existing data in one batch update (no replacement)
+- New UUIDs are generated
 - No duplicate detection
 
 **Example valid CSV (minimal):**
+
 ```
 Company,Role
 Google,SWE
 ```
 
 **JSON Requirements:**
+
 - Must be array of objects: `[{...}, {...}]`
 - Only include fields you have
-- id/dateAdded ignored (regenerated)
+- `id` is regenerated; `dateAdded` is preserved when supplied
 
 ## Common Issues
 
-| Problem | Solution |
-|---------|----------|
-| Import fails | Check file is actual CSV/JSON, not renamed |
-| Missing data | Verify CSV headers match column names |
-| Wrong dates | Ensure YYYY-MM-DD format for deadlines |
-| Calendar shows no events | Applications must have next step deadline |
-| Duplicate applications | Manual deletion required |
+| Problem                  | Solution                                   |
+| ------------------------ | ------------------------------------------ |
+| Import fails             | Check file is actual CSV/JSON, not renamed |
+| Missing data             | Verify CSV headers match column names      |
+| Wrong dates              | Ensure YYYY-MM-DD format for deadlines     |
+| Calendar shows no events | Applications must have next step deadline  |
+| Duplicate applications   | Manual deletion required                   |
 
 ## Workflows
 
