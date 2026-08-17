@@ -26,7 +26,7 @@ export function TableView({
   onOpen: (app: Application) => void;
 }) {
   return (
-    <div className="mx-4 overflow-hidden rounded-xl border bg-card shadow-sm lg:mx-8">
+    <div className="mx-4 overflow-hidden rounded-lg border bg-card lg:mx-8">
       <Table>
         <thead className="bg-secondary/55">
           <tr>

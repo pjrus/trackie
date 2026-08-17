@@ -3,45 +3,71 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #f4f0e8;
-  --foreground: #20231f;
-  --card: #fbf8f2;
-  --card-foreground: #20231f;
-  --popover: #fffdf8;
-  --popover-foreground: #20231f;
-  --primary: #315c42;
-  --primary-foreground: #fbf8f2;
-  --secondary: #e9e3d8;
-  --secondary-foreground: #272b26;
-  --muted: #e9e3d8;
-  --muted-foreground: #696c65;
-  --accent: #dce8dc;
-  --accent-foreground: #264b35;
-  --destructive: #a13e34;
-  --border: #d8d1c5;
-  --input: #cfc7ba;
-  --ring: #4f7a5f;
+  --background: #f7f8fa;
+  --foreground: #171a1f;
+  --card: #ffffff;
+  --card-foreground: #171a1f;
+  --popover: #ffffff;
+  --popover-foreground: #171a1f;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f3f5;
+  --secondary-foreground: #171a1f;
+  --muted: #f1f3f5;
+  --muted-foreground: #667085;
+  --accent: #eff6ff;
+  --accent-foreground: #1d4ed8;
+  --destructive: #dc2626;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #d97706;
+  --warning-foreground: #ffffff;
+  --info: #0284c7;
+  --info-foreground: #ffffff;
+  --border: #e4e7ec;
+  --input: #d0d5dd;
+  --ring: #2563eb;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #171a1f;
+  --sidebar-accent: #f1f3f5;
+  --sidebar-accent-foreground: #171a1f;
+  --sidebar-border: #e4e7ec;
+  --sidebar-ring: #2563eb;
 }
 
 .dark {
-  --background: #191c19;
-  --foreground: #ecebe5;
-  --card: #202420;
-  --card-foreground: #ecebe5;
-  --popover: #252a25;
-  --popover-foreground: #ecebe5;
-  --primary: #94bea0;
-  --primary-foreground: #142118;
-  --secondary: #2b302b;
-  --secondary-foreground: #ecebe5;
-  --muted: #2d322d;
-  --muted-foreground: #a9afa8;
-  --accent: #314a38;
-  --accent-foreground: #dfece2;
-  --destructive: #d46e62;
-  --border: #3b413b;
-  --input: #4a514a;
-  --ring: #94bea0;
+  --background: #0b0d12;
+  --foreground: #ecedf0;
+  --card: #12151b;
+  --card-foreground: #ecedf0;
+  --popover: #161a21;
+  --popover-foreground: #ecedf0;
+  --primary: #4d8dfd;
+  --primary-hover: #71a4ff;
+  --primary-foreground: #05070d;
+  --secondary: #191d25;
+  --secondary-foreground: #ecedf0;
+  --muted: #191d25;
+  --muted-foreground: #8b95a5;
+  --accent: #16233d;
+  --accent-foreground: #93c5fd;
+  --destructive: #f87171;
+  --success: #4ade80;
+  --success-foreground: #0b0d12;
+  --warning: #fbbf24;
+  --warning-foreground: #0b0d12;
+  --info: #38bdf8;
+  --info-foreground: #0b0d12;
+  --border: #242832;
+  --input: #2c313d;
+  --ring: #4d8dfd;
+  --sidebar: #0e1116;
+  --sidebar-foreground: #ecedf0;
+  --sidebar-accent: #191d25;
+  --sidebar-accent-foreground: #ecedf0;
+  --sidebar-border: #242832;
+  --sidebar-ring: #4d8dfd;
 }
 
 @theme inline {
@@ -52,6 +78,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -60,11 +87,23 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: var(--font-geist);
+  --font-display: var(--font-geist);
 }
 
 * {

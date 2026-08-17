@@ -83,10 +83,10 @@ export function ApplicationCard({
         <Badge
           className={
             application.priority === "High"
-              ? "border-red-300 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
+              ? "border-destructive/25 bg-destructive/10 text-destructive"
               : application.priority === "Low"
-                ? "border-green-300 bg-green-50 text-green-800 dark:border-green-900 dark:bg-green-950 dark:text-green-200"
-                : "border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200"
+                ? "border-success/25 bg-success/10 text-success"
+                : "border-warning/25 bg-warning/10 text-warning"
           }
         >
           {application.priority}

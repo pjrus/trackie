@@ -11,25 +11,23 @@ export function Summary({ applications }: { applications: Application[] }) {
   return (
     <section
       aria-label="Application summary"
-      className="grid gap-px border-y bg-border sm:grid-cols-4 xl:grid-cols-8"
+      className="mx-4 mt-4 mb-4 grid divide-x divide-border overflow-hidden rounded-lg border bg-card sm:grid-cols-4 xl:grid-cols-8 lg:mx-8"
     >
-      <div className="bg-primary px-5 py-4 text-primary-foreground sm:col-span-2 xl:col-span-1">
-        <p className="text-[10px] font-bold uppercase tracking-[.2em] opacity-75">
+      <div className="px-4 py-2.5">
+        <p className="text-[10px] font-semibold uppercase tracking-[.16em] text-primary">
           Active
         </p>
-        <p className="mt-1 font-display text-3xl font-semibold">{active}</p>
+        <p className="text-xl font-semibold text-primary">{active}</p>
       </div>
       {STAGES.map((stage, index) => (
         <div
-          className={`bg-card px-5 py-4 ${index > 2 ? "hidden xl:block" : ""}`}
+          className={`px-4 py-2.5 ${index > 2 ? "hidden xl:block" : ""}`}
           key={stage}
         >
-          <p className="truncate text-[10px] font-bold uppercase tracking-[.14em] text-muted-foreground">
+          <p className="truncate text-[10px] font-semibold uppercase tracking-[.12em] text-muted-foreground">
             {stage}
           </p>
-          <p className="mt-1 font-display text-2xl font-semibold">
-            {counts.get(stage)}
-          </p>
+          <p className="text-lg font-semibold">{counts.get(stage)}</p>
         </div>
       ))}
     </section>

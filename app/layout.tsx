@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Newsreader } from "next/font/google";
+import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const body = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
-const display = Newsreader({ subsets: ["latin"], variable: "--font-display" });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
 export const metadata: Metadata = {
   title: "Trackie — Job application workspace",
@@ -16,8 +15,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f0e8" },
-    { media: "(prefers-color-scheme: dark)", color: "#191c19" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f8fa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0d12" },
   ],
 };
 
@@ -27,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en-AU" suppressHydrationWarning>
       <body
-        className={`${body.variable} ${display.variable} font-sans antialiased`}
+        className={`${geist.variable} font-sans antialiased`}
+        suppressHydrationWarning
       >
         <ThemeProvider>
           {children}

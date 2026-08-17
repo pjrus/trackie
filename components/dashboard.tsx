@@ -1,16 +1,7 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
-import {
-  BriefcaseBusiness,
-  KanbanSquare,
-  Laptop,
-  List,
-  Monitor,
-  Moon,
-  Plus,
-  Sun,
-} from "lucide-react";
+import { BriefcaseBusiness, Plus } from "lucide-react";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import {
@@ -31,26 +22,13 @@ import { useApplications } from "@/hooks/use-applications";
 import { usePersistedState } from "@/hooks/use-persisted-state";
 import { ApplicationEditor } from "@/components/application-editor";
 import { FilterBar } from "@/components/filter-bar";
-import { HelpDialog } from "@/components/help-dialog";
-import { ImportExport } from "@/components/import-export";
 import { KanbanBoard } from "@/components/kanban-board";
 import { Summary } from "@/components/summary";
 import { TableView } from "@/components/table-view";
+import { Topbar } from "@/components/topbar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/display";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/controls";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const normaliseView = (value: unknown): ViewMode =>
   value === "table" ? "table" : "kanban";
@@ -69,23 +47,25 @@ const normaliseSort = (value: unknown): SortKey =>
 
 function LoadingWorkspace() {
   return (
-    <main className="min-h-screen p-5 lg:p-8">
-      <div className="flex items-center justify-between">
-        <Skeleton className="h-12 w-52" />
-        <Skeleton className="h-10 w-72" />
+    <div className="min-h-screen">
+      <div className="flex items-center justify-between gap-4 border-b bg-card px-4 py-3 lg:px-8">
+        <Skeleton className="h-7 w-28" />
+        <Skeleton className="h-9 w-64" />
       </div>
-      <div className="mt-8 grid grid-cols-4 gap-3">
-        {Array.from({ length: 4 }, (_, index) => (
-          <Skeleton className="h-24" key={index} />
-        ))}
-      </div>
-      <Skeleton className="mt-6 h-12 w-full" />
-      <div className="mt-6 flex gap-4 overflow-hidden">
-        {Array.from({ length: 4 }, (_, index) => (
-          <Skeleton className="h-96 w-80 shrink-0" key={index} />
-        ))}
-      </div>
-    </main>
+      <main className="p-6 lg:p-8">
+        <div className="grid grid-cols-4 gap-px overflow-hidden rounded-lg border">
+          {Array.from({ length: 4 }, (_, index) => (
+            <Skeleton className="h-20 rounded-none" key={index} />
+          ))}
+        </div>
+        <Skeleton className="mt-6 h-11 w-full" />
+        <div className="mt-6 flex gap-4 overflow-hidden">
+          {Array.from({ length: 4 }, (_, index) => (
+            <Skeleton className="h-96 w-80 shrink-0" key={index} />
+          ))}
+        </div>
+      </main>
+    </div>
   );
 }
 
@@ -178,101 +158,16 @@ export function Dashboard() {
   return (
     <TooltipProvider delayDuration={350}>
       <div className="min-h-screen">
-        <header className="px-4 pb-5 pt-6 lg:px-8 lg:pb-7 lg:pt-8">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div className="flex items-center gap-3">
-              <div className="grid size-11 place-items-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-                <BriefcaseBusiness className="size-5" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.24em] text-primary">
-                  Private workspace
-                </p>
-                <h1 className="font-display text-3xl font-semibold leading-none sm:text-4xl">
-                  Trackie
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <ImportExport
-                applications={applications}
-                onImport={addApplications}
-                notify={(message) => toast.success(message)}
-              />
-              <Button onClick={openNew}>
-                <Plus className="size-4" />
-                <span>New application</span>
-              </Button>
-              <HelpDialog />
-              <DropdownMenu>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        aria-label="Choose theme"
-                      >
-                        {theme === "system" ? (
-                          <Monitor className="size-5" />
-                        ) : theme === "dark" ? (
-                          <Moon className="size-5" />
-                        ) : (
-                          <Sun className="size-5" />
-                        )}
-                      </Button>
-                    </DropdownMenuTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>Theme</TooltipContent>
-                </Tooltip>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onSelect={() => setTheme("light")}>
-                    <Sun className="size-4" />
-                    Light
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => setTheme("dark")}>
-                    <Moon className="size-4" />
-                    Dark
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => setTheme("system")}>
-                    <Laptop className="size-4" />
-                    System
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-          <div className="mt-7 flex flex-col justify-between gap-4 border-t pt-5 sm:flex-row sm:items-center">
-            <div>
-              <p className="max-w-2xl text-sm text-muted-foreground">
-                A calm, local-first view of every opportunity, next step, and
-                conversation.
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {filtered.length} of {applications.length} application
-                {applications.length === 1 ? "" : "s"} shown
-              </p>
-            </div>
-            <ToggleGroup
-              type="single"
-              value={view}
-              onValueChange={(value) => {
-                if (value === "kanban" || value === "table") setView(value);
-              }}
-              aria-label="Choose workspace view"
-              className="w-fit rounded-md bg-muted p-1"
-            >
-              <ToggleGroupItem value="kanban" aria-label="Kanban view">
-                <KanbanSquare className="size-4" />
-                Kanban
-              </ToggleGroupItem>
-              <ToggleGroupItem value="table" aria-label="Table view">
-                <List className="size-4" />
-                Table
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-        </header>
+        <Topbar
+          view={view}
+          onViewChange={setView}
+          applications={applications}
+          onImport={addApplications}
+          notify={(message) => toast.success(message)}
+          theme={theme}
+          setTheme={setTheme}
+          onNewApplication={openNew}
+        />
         <Summary applications={filtered} />
         <FilterBar filters={filters} onChange={setFilters} />
         <main className="pb-12">
@@ -292,12 +187,12 @@ export function Dashboard() {
               />
             )
           ) : (
-            <div className="mx-4 grid min-h-72 place-items-center rounded-xl border border-dashed bg-card px-6 text-center lg:mx-8">
+            <div className="mx-4 grid min-h-72 place-items-center rounded-lg border border-dashed bg-card px-6 text-center lg:mx-8">
               <div>
                 <div className="mx-auto grid size-12 place-items-center rounded-full bg-accent text-accent-foreground">
                   <BriefcaseBusiness className="size-5" />
                 </div>
-                <h2 className="mt-4 font-display text-2xl font-semibold">
+                <h2 className="mt-4 font-display text-xl font-semibold">
                   {applications.length
                     ? "No applications match"
                     : "Your workspace is ready"}

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import {
   Calendar,
   Download,
@@ -39,10 +39,12 @@ export function ImportExport({
   applications,
   onImport,
   notify,
+  trigger,
 }: {
   applications: Application[];
   onImport: (apps: Application[]) => void;
   notify: (message: string) => void;
+  trigger?: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"csv" | "json">("json");
@@ -87,10 +89,12 @@ export function ImportExport({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="secondary">
-            <Download className="size-4" />
-            <span className="hidden sm:inline">Import / Export</span>
-          </Button>
+          {trigger ?? (
+            <Button variant="secondary">
+              <Download className="size-4" />
+              <span className="hidden sm:inline">Import / Export</span>
+            </Button>
+          )}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Export</DropdownMenuLabel>
