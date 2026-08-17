@@ -106,24 +106,28 @@
   --font-display: var(--font-geist);
 }
 
-* {
-  border-color: var(--border);
-}
-html {
-  background: var(--background);
-}
-body {
-  min-height: 100vh;
-  background: var(--background);
-  color: var(--foreground);
-}
-button,
-[role="button"] {
-  cursor: pointer;
-}
-::selection {
-  background: var(--accent);
-  color: var(--accent-foreground);
+/* Defaults live in the base layer so Tailwind utilities can still override
+   them: unlayered rules beat every layered utility in the cascade. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    background: var(--background);
+  }
+  body {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   *,

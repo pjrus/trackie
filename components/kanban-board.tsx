@@ -2,20 +2,62 @@
 import {
   DndContext,
   DragOverlay,
+  KeyboardCode,
   KeyboardSensor,
+  MeasuringStrategy,
   PointerSensor,
   closestCorners,
+  getFirstCollision,
   useDroppable,
   useSensor,
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
+  type KeyboardCoordinateGetter,
+  type UniqueIdentifier,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useState } from "react";
-import { ApplicationCard } from "@/components/application-card";
-import { Card } from "@/components/ui/display";
+import {
+  ApplicationCard,
+  ApplicationCardPreview,
+  applicationLabel,
+} from "@/components/application-card";
+import { cn } from "@/lib/utils";
 import { STAGES, type Application, type Stage } from "@/lib/types";
+
+/**
+ * Moves the dragged card to the neighbouring column. The sortable coordinate
+ * getter cannot be used here: the cards are draggable but not droppable, so it
+ * bails out before returning any coordinates.
+ */
+const columnCoordinateGetter: KeyboardCoordinateGetter = (
+  event,
+  { context: { active, collisionRect, droppableRects, droppableContainers } },
+) => {
+  if (event.code !== KeyboardCode.Left && event.code !== KeyboardCode.Right)
+    return undefined;
+  event.preventDefault();
+  if (!active || !collisionRect) return undefined;
+  const forward = event.code === KeyboardCode.Right;
+  const candidates = droppableContainers.getEnabled().filter((container) => {
+    if (container.disabled) return false;
+    const rect = droppableRects.get(container.id);
+    if (!rect) return false;
+    return forward ? rect.left > collisionRect.left : rect.left < collisionRect.left;
+  });
+  const target = getFirstCollision(
+    closestCorners({
+      active,
+      collisionRect,
+      droppableRects,
+      droppableContainers: candidates,
+      pointerCoordinates: null,
+    }),
+    "id",
+  );
+  const rect = target === null ? undefined : droppableRects.get(target);
+  return rect ? { x: rect.left, y: collisionRect.top } : undefined;
+};
 
 function Column({
   stage,
@@ -34,7 +76,10 @@ function Column({
     <section
       ref={setNodeRef}
       aria-labelledby={headingId}
-      className={`w-[315px] shrink-0 rounded-xl border bg-secondary/35 p-3 ${isOver ? "border-primary bg-accent/60" : ""}`}
+      className={cn(
+        "w-[315px] shrink-0 rounded-xl border bg-secondary/35 p-3 transition-colors",
+        isOver && "border-primary bg-accent/60",
+      )}
     >
       <header className="mb-3 flex items-center justify-between px-1 py-1">
         <h2 id={headingId} className="font-display text-lg font-semibold">
@@ -77,9 +122,17 @@ export function KanbanBoard({
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
+      coordinateGetter: columnCoordinateGetter,
+      // The sensor scrolls the board when the next column sits off-centre; a
+      // smooth scroll leaves the card behind its own drop target until the
+      // animation settles.
+      scrollBehavior: "auto",
     }),
   );
+  const describe = (id: UniqueIdentifier | undefined) => {
+    const app = applications.find((item) => item.id === id);
+    return app ? applicationLabel(app) : "application";
+  };
   const endDrag = ({ active: dragged, over }: DragEndEvent) => {
     setActive(null);
     if (!over) return;
@@ -91,6 +144,9 @@ export function KanbanBoard({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCorners}
+      // Keep the column rects measured so the first arrow key after picking a
+      // card up already has somewhere to move to.
+      measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
       onDragStart={({ active: dragged }: DragStartEvent) =>
         setActive(applications.find((app) => app.id === dragged.id) ?? null)
       }
@@ -98,17 +154,29 @@ export function KanbanBoard({
       onDragEnd={endDrag}
       accessibility={{
         announcements: {
-          onDragStart: ({ active }) =>
-            `Picked up application ${String(active.id)}.`,
+          onDragStart: ({ active: dragged }) =>
+            `Picked up ${describe(dragged.id)}.`,
           onDragOver: ({ over }) =>
-            over ? `Over ${String(over.id)} stage.` : "Not over a stage.",
-          onDragEnd: ({ over }) =>
-            over ? `Moved to ${String(over.id)}.` : "Move cancelled.",
-          onDragCancel: () => "Move cancelled.",
+            over ? `Over ${String(over.id)}.` : "Not over a stage.",
+          onDragEnd: ({ active: dragged, over }) =>
+            over
+              ? `Moved ${describe(dragged.id)} to ${String(over.id)}.`
+              : "Move cancelled.",
+          onDragCancel: ({ active: dragged }) =>
+            `Move cancelled. ${describe(dragged.id)} stayed in place.`,
         },
       }}
     >
-      <div className="overflow-x-auto pb-5">
+      {/* While a card is held, arrow keys belong to the drag. The sensor binds
+          its own handler a tick after pick-up, and until then the browser would
+          scroll the board out from under the card. */}
+      <div
+        className="overflow-x-auto pb-5"
+        onKeyDown={(event) => {
+          if (active && (event.key === "ArrowLeft" || event.key === "ArrowRight"))
+            event.preventDefault();
+        }}
+      >
         <div className="flex min-w-max gap-4 px-4 lg:px-8">
           {STAGES.map((stage) => (
             <Column
@@ -121,17 +189,8 @@ export function KanbanBoard({
           ))}
         </div>
       </div>
-      <DragOverlay>
-        {active ? (
-          <Card className="w-[290px] p-4 shadow-lg">
-            <p className="text-xs font-bold uppercase tracking-[.13em] text-muted-foreground">
-              {active.company || "Company not set"}
-            </p>
-            <p className="mt-1 font-display text-lg font-semibold">
-              {active.role || "Role not set"}
-            </p>
-          </Card>
-        ) : null}
+      <DragOverlay dropAnimation={null}>
+        {active ? <ApplicationCardPreview application={active} /> : null}
       </DragOverlay>
     </DndContext>
   );

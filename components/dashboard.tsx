@@ -144,7 +144,7 @@ export function Dashboard() {
           setTheme={setTheme}
           onNewApplication={openNew}
         />
-        <SidebarInset>
+        <SidebarInset className="min-w-0">
           <header className="sticky top-0 z-20 flex items-center gap-2 border-b bg-card px-4 py-3 lg:px-8">
             <SidebarTrigger />
             <h1 className="font-display text-lg font-semibold">
@@ -157,7 +157,7 @@ export function Dashboard() {
             {filtered.length ? (
               view === "kanban" ? (
                 <KanbanBoard
-                  applications={filtered}
+                  applications={sorted}
                   onOpen={openApplication}
                   onMove={move}
                 />

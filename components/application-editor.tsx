@@ -45,6 +45,9 @@ import {
 } from "@/components/ui/controls";
 import { Input, Label, Textarea } from "@/components/ui/form-controls";
 
+/** Header, form and footer share one centred column inside full-width chrome. */
+const CONTENT_COLUMN = "mx-auto w-full max-w-3xl";
+
 function Field({
   label,
   error,
@@ -189,36 +192,42 @@ export function ApplicationEditor({
 
   return (
     <>
-      <div className="mx-auto flex min-h-screen max-w-3xl flex-col">
-        <header className="sticky top-0 z-20 flex items-start gap-3 border-b bg-card px-5 py-5 sm:px-8">
-          <Button
-            type="button"
-            size="icon"
-            variant="ghost"
-            className="mt-0.5 shrink-0"
-            onClick={requestClose}
-            aria-label="Back to dashboard"
-          >
-            <ArrowLeft className="size-4" />
-          </Button>
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-primary">
-              {application ? "Application record" : "New application"}
-            </p>
-            <h1 className="mt-1 font-display text-2xl font-semibold">
-              {application
-                ? `${application.company || "Untitled"} — ${application.role || "Open role"}`
-                : "Add an opportunity"}
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Saved only in this browser. Company or role is required.
-            </p>
+      <div className="mx-auto flex min-h-screen w-full flex-col">
+        {/* Full-width bar. The arrow is taken out of flow at the left edge so
+            the title lines up with the centred content column below it. */}
+        <header className="sticky top-0 z-20 border-b bg-card px-5 py-5 sm:px-8">
+          <div className="relative">
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              className="absolute left-0 top-0.5"
+              onClick={requestClose}
+              aria-label="Back to dashboard"
+            >
+              <ArrowLeft className="size-4" />
+            </Button>
+            {/* lg:pl-8 matches the form's own inset so the title and the first
+                field share a left edge once the column is centred. */}
+            <div className={`${CONTENT_COLUMN} pl-11 lg:pl-8`}>
+              <p className="text-xs font-bold uppercase tracking-[.2em] text-primary">
+                {application ? "Application record" : "New application"}
+              </p>
+              <h1 className="mt-1 font-display text-2xl font-semibold">
+                {application
+                  ? `${application.company || "Untitled"} — ${application.role || "Open role"}`
+                  : "Add an opportunity"}
+              </h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Saved only in this browser. Company or role is required.
+              </p>
+            </div>
           </div>
         </header>
         <form
           id="application-form"
           onSubmit={submit}
-          className="flex-1 space-y-7 px-5 py-6 sm:px-8"
+          className={`${CONTENT_COLUMN} flex-1 space-y-7 px-5 py-6 sm:px-8`}
         >
           <Section eyebrow="01" title="Overview">
             <Field
@@ -529,28 +538,32 @@ export function ApplicationEditor({
             </div>
           </Section>
         </form>
-        <footer className="sticky bottom-0 z-20 flex items-center justify-between gap-3 border-t bg-card px-5 py-4 sm:px-8">
-          <div>
-            {application && onDelete ? (
-              <Button
-                type="button"
-                variant="ghost"
-                className="text-destructive"
-                onClick={() => setDeleteOpen(true)}
-              >
-                <Trash2 className="size-4" />
-                Delete
+        <footer className="sticky bottom-0 z-20 border-t bg-card px-5 py-4 sm:px-8">
+          <div
+            className={`${CONTENT_COLUMN} flex items-center justify-between gap-3`}
+          >
+            <div>
+              {application && onDelete ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="text-destructive"
+                  onClick={() => setDeleteOpen(true)}
+                >
+                  <Trash2 className="size-4" />
+                  Delete
+                </Button>
+              ) : null}
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="secondary" onClick={requestClose}>
+                Cancel
               </Button>
-            ) : null}
-          </div>
-          <div className="flex gap-2">
-            <Button type="button" variant="secondary" onClick={requestClose}>
-              Cancel
-            </Button>
-            <Button type="submit" form="application-form">
-              <Save className="size-4" />
-              {application ? "Save changes" : "Add application"}
-            </Button>
+              <Button type="submit" form="application-form">
+                <Save className="size-4" />
+                {application ? "Save changes" : "Add application"}
+              </Button>
+            </div>
           </div>
         </footer>
       </div>

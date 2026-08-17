@@ -1,8 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => localStorage.clear());
-});
+// Each test runs in a fresh context, so localStorage already starts empty. An
+// init script would re-clear it on the reload below and drop the saved record.
 
 test("application lifecycle persists and round-trips through JSON", async ({
   page,
@@ -19,7 +18,7 @@ test("application lifecycle persists and round-trips through JSON", async ({
     .getByRole("textbox", { name: "Role" })
     .fill("Product designer");
   await page.getByRole("button", { name: "Add application" }).click();
-  await expect(page.getByText("Product designer")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Product designer" })).toBeVisible();
 
   // Pointer move from Applied to Online Assessment.
   const dragHandle = page.getByRole("button", { name: "Move Canva" });
@@ -43,20 +42,30 @@ test("application lifecycle persists and round-trips through JSON", async ({
   await page.mouse.up();
   await expect(destination).toContainText("Product designer");
 
-  // Keyboard move to the next stage.
+  // Keyboard move to the next stage. Each press waits on the drag
+  // announcement so the assertions follow the drag instead of racing it.
+  const announcements = page.locator("[id^='DndLiveRegion']");
   await page.getByRole("button", { name: "Move Canva" }).focus();
   await page.keyboard.press("Space");
+  await expect(announcements).toContainText("Over Online Assessment.");
+  // dnd-kit binds its arrow-key handling one task after the drag starts.
+  await page.evaluate(() => new Promise((resolve) => setTimeout(resolve)));
   await page.keyboard.press("ArrowRight");
+  await expect(announcements).toContainText("Over Phone Screen.");
   await page.keyboard.press("Space");
   await expect(page.getByRole("region", { name: "Phone Screen" })).toContainText(
     "Product designer",
   );
 
-  await page.getByText("Product designer").click();
+  await page.getByRole("heading", { name: "Product designer" }).click();
   await page.getByRole("textbox", { name: "Notes" }).fill("Portfolio sent");
   await page.getByRole("button", { name: "Save changes" }).click();
+  // Saving routes back to the board; reloading before that lands on the editor.
+  await expect(page).toHaveURL(/\/$/);
   await page.reload();
-  await expect(page.getByText("Product designer")).toBeVisible();
+  await expect(page.getByRole("region", { name: "Phone Screen" })).toContainText(
+    "Product designer",
+  );
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: /Import \/ Export/ }).click();
@@ -67,16 +76,13 @@ test("application lifecycle persists and round-trips through JSON", async ({
   for await (const chunk of stream) chunks.push(Buffer.from(chunk));
   const backup = Buffer.concat(chunks);
 
-  await page.getByText("Product designer").click();
-  await page
-    .getByRole("button", { name: "Delete application" })
-    .first()
-    .click();
+  await page.getByRole("heading", { name: "Product designer" }).click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
   await page
     .getByRole("alertdialog")
     .getByRole("button", { name: "Delete application" })
     .click();
-  await expect(page.getByText("Product designer")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Product designer" })).toHaveCount(0);
 
   await page.getByRole("button", { name: /Import \/ Export/ }).click();
   await page.getByRole("menuitem", { name: "Import applications" }).click();
@@ -87,13 +93,10 @@ test("application lifecycle persists and round-trips through JSON", async ({
   });
   await page.getByRole("button", { name: "Preview import" }).click();
   await page.getByRole("button", { name: "Import 1" }).click();
-  await expect(page.getByText("Product designer")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Product designer" })).toBeVisible();
 
-  await page.getByText("Product designer").click();
-  await page
-    .getByRole("button", { name: "Delete application" })
-    .first()
-    .click();
+  await page.getByRole("heading", { name: "Product designer" }).click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
   await page
     .getByRole("alertdialog")
     .getByRole("button", { name: "Delete application" })

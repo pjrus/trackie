@@ -13,15 +13,15 @@ export function Summary({ applications }: { applications: Application[] }) {
       aria-label="Application summary"
       className="mx-4 mt-4 mb-4 grid divide-x divide-border overflow-hidden rounded-lg border bg-card sm:grid-cols-4 xl:grid-cols-8 lg:mx-8"
     >
-      <div className="px-4 py-2.5">
-        <p className="text-[10px] font-semibold uppercase tracking-[.16em] text-primary">
+      <div className="min-w-0 px-4 py-2.5">
+        <p className="truncate text-[10px] font-semibold uppercase tracking-[.16em] text-primary">
           Active
         </p>
         <p className="text-xl font-semibold text-primary">{active}</p>
       </div>
       {STAGES.map((stage, index) => (
         <div
-          className={`px-4 py-2.5 ${index > 2 ? "hidden xl:block" : ""}`}
+          className={`min-w-0 px-4 py-2.5 ${index > 2 ? "hidden xl:block" : ""}`}
           key={stage}
         >
           <p className="truncate text-[10px] font-semibold uppercase tracking-[.12em] text-muted-foreground">
