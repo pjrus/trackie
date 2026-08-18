@@ -8,7 +8,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-border px-2 py-0.5 text-xs font-semibold",
+        "inline-flex items-center gap-1.5 border border-border px-2.5 py-0.5 text-xs font-medium",
         className,
       )}
       {...props}
@@ -22,7 +22,7 @@ export const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border border-border bg-card text-card-foreground shadow-sm",
+      "rounded-xl border border-border bg-card text-card-foreground shadow-sm",
       className,
     )}
     {...props}

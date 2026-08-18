@@ -14,7 +14,7 @@ export function DropdownMenuContent({
       <Dropdown.Content
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-48 rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+          "z-50 min-w-48 rounded-lg border bg-popover p-1.5 text-popover-foreground shadow-lg",
           className,
         )}
         {...props}
@@ -29,7 +29,7 @@ export function DropdownMenuItem({
   return (
     <Dropdown.Item
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-sm px-3 py-2 text-sm outline-none focus:bg-muted",
+        "flex cursor-default select-none items-center gap-2 rounded-md px-2.5 py-1.5 text-sm outline-none focus:bg-muted",
         className,
       )}
       {...props}
@@ -63,7 +63,7 @@ export const DropdownMenuSeparator = (
 ) => <Dropdown.Separator className="-mx-1 my-1 h-px bg-border" {...props} />;
 export const DropdownMenuLabel = (props: Dropdown.DropdownMenuLabelProps) => (
   <Dropdown.Label
-    className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+    className="eyebrow px-2.5 pb-1 pt-2.5 text-muted-foreground"
     {...props}
   />
 );

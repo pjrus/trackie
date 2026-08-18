@@ -101,5 +101,5 @@ test("application lifecycle persists and round-trips through JSON", async ({
     .getByRole("alertdialog")
     .getByRole("button", { name: "Delete application" })
     .click();
-  await expect(page.getByText("Your workspace is ready")).toBeVisible();
+  await expect(page.getByText("Start your pipeline")).toBeVisible();
 });

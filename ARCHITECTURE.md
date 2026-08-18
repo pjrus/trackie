@@ -14,10 +14,10 @@ app/
   (workspace)/
     layout.tsx                Shared shell: WorkspaceProvider + sidebar
     kanban/
-      layout.tsx               Header + FilterBar (no summary strip)
+      layout.tsx               Header + PipelineStrip + FilterBar
       page.tsx                 Renders KanbanBoard
     table/
-      layout.tsx               Header + Summary strip + FilterBar
+      layout.tsx               Header + PipelineStrip (legend) + FilterBar
       page.tsx                 Renders TableView
   applications/
     [id]/page.tsx             Edit an existing application
@@ -75,9 +75,12 @@ directly since they don't need filters or sort order.
 ## Component layers
 
 - `components/*.tsx` — feature components (`kanban-board`, `table-view`,
-  `application-editor`, `filter-bar`, `summary`, `import-export`,
+  `application-editor`, `filter-bar`, `pipeline-strip`, `import-export`,
   `settings-panel`, `help-dialog`, `app-sidebar`) plus the cross-view chrome
   in `workspace-chrome.tsx` (header, empty state, loading skeletons).
+- `components/stage-ladder.tsx` — the shared stage vocabulary used by every
+  view: the five advancing stages versus the two exits, each stage's colour on
+  the ramp, deadline urgency tones, and the small `StageTrack` glyph.
 - `components/ui/*.tsx` — shadcn-style primitives wrapping Radix UI
   (`dialog`, `dropdown-menu`, `tabs`, `sidebar`, etc.), styled with Tailwind
   and `class-variance-authority`. These carry no application logic.

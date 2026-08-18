@@ -2,72 +2,97 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Ledger & Ladder.
+   Light mode is near-white paper: the canvas carries the faintest warm tint so
+   pure-white cards still lift off it, and hairlines do the rest of the
+   separating. Ultramarine is the only brand signal; brass, rust and pine are
+   reserved for deadline state so colour never decorates — it reports. The stage
+   ramp is one hue gaining intensity as an application advances, which is why
+   the pipeline bar reads as a funnel. */
 :root {
-  --background: #f7f8fa;
-  --foreground: #171a1f;
+  --background: #fbfbf9;
+  --foreground: #15171c;
   --card: #ffffff;
-  --card-foreground: #171a1f;
+  --card-foreground: #15171c;
   --popover: #ffffff;
-  --popover-foreground: #171a1f;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  --popover-foreground: #15171c;
+  --primary: #2e35d4;
+  --primary-hover: #242ab4;
   --primary-foreground: #ffffff;
-  --secondary: #f1f3f5;
-  --secondary-foreground: #171a1f;
-  --muted: #f1f3f5;
-  --muted-foreground: #667085;
-  --accent: #eff6ff;
-  --accent-foreground: #1d4ed8;
-  --destructive: #dc2626;
-  --success: #16a34a;
+  --secondary: #f3f3ef;
+  --secondary-foreground: #15171c;
+  --muted: #f2f2ee;
+  --muted-foreground: #5f6670;
+  --accent: #ecedfd;
+  --accent-foreground: #262ca8;
+  --destructive: #b33a1b;
+  --success: #276b4e;
   --success-foreground: #ffffff;
-  --warning: #d97706;
+  --warning: #a96a0b;
   --warning-foreground: #ffffff;
-  --info: #0284c7;
+  --info: #2e35d4;
   --info-foreground: #ffffff;
-  --border: #e4e7ec;
-  --input: #d0d5dd;
-  --ring: #2563eb;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #171a1f;
-  --sidebar-accent: #f1f3f5;
-  --sidebar-accent-foreground: #171a1f;
-  --sidebar-border: #e4e7ec;
-  --sidebar-ring: #2563eb;
+  --border: #e7e7e1;
+  --input: #d6d6ce;
+  --ring: #2e35d4;
+  --sidebar: #f5f5f1;
+  --sidebar-foreground: #15171c;
+  --sidebar-accent: #ebebe5;
+  --sidebar-accent-foreground: #15171c;
+  --sidebar-border: #e7e7e1;
+  --sidebar-ring: #2e35d4;
+
+  /* Ladder: pale to saturated as the application advances. Offer leaves the
+     ramp for pine; the two closed stages drop out of it entirely. */
+  --stage-applied: #c1c4ee;
+  --stage-assessment: #9a9ee5;
+  --stage-screen: #7276dc;
+  --stage-interview: #4b51d3;
+  --stage-offer: #276b4e;
+  --stage-rejected: #b4aba4;
+  --stage-withdrawn: #cbcbc4;
 }
 
 .dark {
-  --background: #0b0d12;
-  --foreground: #ecedf0;
-  --card: #12151b;
-  --card-foreground: #ecedf0;
-  --popover: #161a21;
-  --popover-foreground: #ecedf0;
-  --primary: #4d8dfd;
-  --primary-hover: #71a4ff;
-  --primary-foreground: #05070d;
-  --secondary: #191d25;
-  --secondary-foreground: #ecedf0;
-  --muted: #191d25;
-  --muted-foreground: #8b95a5;
-  --accent: #16233d;
-  --accent-foreground: #93c5fd;
-  --destructive: #f87171;
-  --success: #4ade80;
-  --success-foreground: #0b0d12;
-  --warning: #fbbf24;
-  --warning-foreground: #0b0d12;
-  --info: #38bdf8;
-  --info-foreground: #0b0d12;
-  --border: #242832;
-  --input: #2c313d;
-  --ring: #4d8dfd;
-  --sidebar: #0e1116;
-  --sidebar-foreground: #ecedf0;
-  --sidebar-accent: #191d25;
-  --sidebar-accent-foreground: #ecedf0;
-  --sidebar-border: #242832;
-  --sidebar-ring: #4d8dfd;
+  --background: #0e0f12;
+  --foreground: #e9eae4;
+  --card: #17191e;
+  --card-foreground: #e9eae4;
+  --popover: #1b1d22;
+  --popover-foreground: #e9eae4;
+  --primary: #9095ff;
+  --primary-hover: #aaaeff;
+  --primary-foreground: #0b0c10;
+  --secondary: #1d2026;
+  --secondary-foreground: #e9eae4;
+  --muted: #1d2026;
+  --muted-foreground: #949aa4;
+  --accent: #23253b;
+  --accent-foreground: #b7bbff;
+  --destructive: #e4744a;
+  --success: #63b78c;
+  --success-foreground: #0e0f12;
+  --warning: #d9a441;
+  --warning-foreground: #0e0f12;
+  --info: #9095ff;
+  --info-foreground: #0e0f12;
+  --border: #262a31;
+  --input: #2e333b;
+  --ring: #9095ff;
+  --sidebar: #121419;
+  --sidebar-foreground: #e9eae4;
+  --sidebar-accent: #1d2026;
+  --sidebar-accent-foreground: #e9eae4;
+  --sidebar-border: #23262c;
+  --sidebar-ring: #9095ff;
+
+  --stage-applied: #383c63;
+  --stage-assessment: #4a4f87;
+  --stage-screen: #5e63ae;
+  --stage-interview: #7d82e8;
+  --stage-offer: #63b78c;
+  --stage-rejected: #4b4540;
+  --stage-withdrawn: #33363c;
 }
 
 @theme inline {
@@ -102,8 +127,28 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: var(--font-geist);
-  --font-display: var(--font-geist);
+
+  --font-sans: var(--font-plex-sans);
+  --font-display: var(--font-bricolage);
+  --font-mono: var(--font-plex-mono);
+
+  /* Square by design. Every surface meets at a right angle, which is why the
+     hairlines, the rules above each column and the ruled table carry so much
+     of the structure — with no soft corners, edges are the whole vocabulary.
+     Components still ask the theme for a radius by name (`rounded-md`, and so
+     on); the theme's answer is zero, so corners stay a one-place decision. */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
+
+  --shadow-sm: 0 1px 2px 0 rgb(21 23 28 / 0.05);
+  --shadow-md: 0 4px 12px -2px rgb(21 23 28 / 0.08);
+  --shadow-lg: 0 16px 40px -12px rgb(21 23 28 / 0.22);
 }
 
 /* Defaults live in the base layer so Tailwind utilities can still override
@@ -119,6 +164,7 @@
     min-height: 100vh;
     background: var(--background);
     color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
   }
   button,
   [role="button"] {
@@ -128,7 +174,35 @@
     background: var(--accent);
     color: var(--accent-foreground);
   }
+  /* Toasts come from sonner with their own corner radii, which would be the
+     one soft shape left in the workspace. */
+  [data-sonner-toaster] {
+    --border-radius: 0;
+  }
+  [data-sonner-toast] [data-button],
+  [data-sonner-toast] [data-close-button] {
+    border-radius: 0;
+  }
+  /* Every number in the workspace is set in the mono face, so lock its digits
+     to one width — countdowns change daily and columns must not shift. */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Bricolage runs wide and loose at display sizes; pull it back in. */
+  .font-display {
+    letter-spacing: -0.018em;
+  }
 }
+
+@utility eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

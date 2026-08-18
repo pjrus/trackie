@@ -23,6 +23,7 @@ import {
   applicationLabel,
 } from "@/components/application-card";
 import { cn } from "@/lib/utils";
+import { stageColor } from "@/components/stage-ladder";
 import { STAGES, type Application, type Stage } from "@/lib/types";
 
 /**
@@ -76,20 +77,38 @@ function Column({
     <section
       ref={setNodeRef}
       aria-labelledby={headingId}
-      className={cn(
-        "w-[315px] shrink-0 rounded-xl border bg-secondary/35 p-3 transition-colors",
-        isOver && "border-primary bg-accent/60",
-      )}
+      // A fixed width only holds if nothing inside can push past it: min-w-0
+      // stops the auto minimum, and the heading truncates rather than growing.
+      className="flex w-[300px] min-w-0 shrink-0 flex-col"
     >
-      <header className="mb-3 flex items-center justify-between px-1 py-1">
-        <h2 id={headingId} className="font-display text-lg font-semibold">
-          {stage}
-        </h2>
-        <span className="rounded-full border bg-background px-2 py-0.5 text-xs font-bold text-muted-foreground">
-          {applications.length}
-        </span>
+      <header className="mb-3">
+        {/* The rule carries the stage's rung colour: paler early, saturated
+            late, so the board reads as a funnel before a single word is. */}
+        <span
+          aria-hidden
+          className="block h-[3px]"
+          style={{ background: stageColor(stage) }}
+        />
+        <div className="flex min-w-0 items-baseline justify-between gap-2 pt-2.5">
+          <h2
+            id={headingId}
+            className="truncate font-display text-[15px] font-semibold"
+          >
+            {stage}
+          </h2>
+          <span className="font-mono text-xs text-muted-foreground">
+            {applications.length}
+          </span>
+        </div>
       </header>
-      <div className="min-h-40 space-y-3">
+      <div
+        // Columns run to the bottom of the viewport whether or not they hold
+        // cards: an empty stage is still a place you can drop something.
+        className={cn(
+          "min-h-[calc(100dvh-19rem)] flex-1 space-y-2.5 rounded-lg p-1 transition-colors",
+          isOver && "bg-accent ring-1 ring-primary/40",
+        )}
+      >
         {applications.length ? (
           applications.map((app) => (
             <ApplicationCard
@@ -100,8 +119,8 @@ function Column({
             />
           ))
         ) : (
-          <div className="grid min-h-32 place-items-center rounded-lg border border-dashed text-xs text-muted-foreground">
-            Drop an application here
+          <div className="grid h-24 place-items-center rounded-lg border border-dashed text-xs text-muted-foreground/70">
+            Drop here
           </div>
         )}
       </div>
@@ -177,7 +196,7 @@ export function KanbanBoard({
             event.preventDefault();
         }}
       >
-        <div className="flex min-w-max gap-4 px-4 lg:px-8">
+        <div className="flex min-w-max items-stretch gap-5 px-4 lg:px-8">
           {STAGES.map((stage) => (
             <Column
               key={stage}

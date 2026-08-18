@@ -72,22 +72,26 @@ function Field({
   );
 }
 
+/**
+ * Sections are categories, not steps — the form can be filled in any order — so
+ * they are named and described rather than numbered.
+ */
 function Section({
-  eyebrow,
   title,
+  description,
   children,
 }: {
-  eyebrow: string;
   title: string;
+  description: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="grid gap-5 border-t pt-6 md:grid-cols-[150px_1fr]">
-      <div>
-        <p className="text-[11px] font-bold uppercase tracking-[.18em] text-primary">
-          {eyebrow}
+    <section className="grid gap-5 border-t pt-7 md:grid-cols-[190px_1fr] md:gap-8">
+      <div className="md:pt-0.5">
+        <h3 className="font-display text-lg font-semibold">{title}</h3>
+        <p className="mt-1 text-[13px] leading-snug text-muted-foreground">
+          {description}
         </p>
-        <h3 className="mt-1 font-display text-xl font-semibold">{title}</h3>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">{children}</div>
     </section>
@@ -201,7 +205,7 @@ export function ApplicationEditor({
             the title lines up with the centred content column below it. */}
         {/* No padding on the bar itself: the column measures its share of the
             full width, exactly as the form below does. */}
-        <header className="sticky top-0 z-20 border-b bg-card py-5">
+        <header className="sticky top-0 z-20 border-b bg-card/90 py-5 backdrop-blur-md">
           <div className="relative">
             <Button
               type="button"
@@ -218,10 +222,10 @@ export function ApplicationEditor({
             <div
               className={`${CONTENT_COLUMN} px-5 pl-16 sm:px-8 sm:pl-20 lg:pl-8`}
             >
-              <p className="text-xs font-bold uppercase tracking-[.2em] text-primary">
+              <p className="eyebrow text-primary">
                 {application ? "Application record" : "New application"}
               </p>
-              <h1 className="mt-1 font-display text-2xl font-semibold">
+              <h1 className="mt-1.5 font-display text-2xl font-semibold">
                 {application
                   ? `${application.company || "Untitled"} — ${application.role || "Open role"}`
                   : "Add an opportunity"}
@@ -237,7 +241,10 @@ export function ApplicationEditor({
           onSubmit={submit}
           className={`${CONTENT_COLUMN} flex-1 space-y-7 px-5 py-6 sm:px-8`}
         >
-          <Section eyebrow="01" title="Overview">
+          <Section
+            title="Overview"
+            description="Who you applied to, and what for."
+          >
             <Field
               label="Company"
               error={form.formState.errors.company?.message}
@@ -297,7 +304,10 @@ export function ApplicationEditor({
               />
             </Field>
           </Section>
-          <Section eyebrow="02" title="Progress">
+          <Section
+            title="Progress"
+            description="Where this sits today and what happens next."
+          >
             <Controller
               control={form.control}
               name="stage"
@@ -367,7 +377,10 @@ export function ApplicationEditor({
               )}
             />
           </Section>
-          <Section eyebrow="03" title="Details">
+          <Section
+            title="Details"
+            description="Links, notes and anything worth remembering later."
+          >
             <Field
               label="Job posting URL"
               error={form.formState.errors.jobUrl?.message}
@@ -429,7 +442,7 @@ export function ApplicationEditor({
                         { shouldDirty: true },
                       )
                     }
-                    className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground"
+                    className="border border-border bg-secondary px-2.5 py-1 text-xs font-medium transition-colors hover:border-destructive/40 hover:text-destructive"
                   >
                     {tag} <span aria-hidden>×</span>
                     <span className="sr-only">Remove {tag}</span>
@@ -495,12 +508,13 @@ export function ApplicationEditor({
               </Field>
             ) : null}
           </Section>
-          <Section eyebrow="04" title="Activity">
+          <Section
+            title="Activity"
+            description="A running log of conversations and milestones."
+          >
             <div className="space-y-3 sm:col-span-2">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">
-                  Keep a lightweight record of conversations and milestones.
-                </p>
+                <Label>Entries</Label>
                 <Button
                   type="button"
                   size="sm"
@@ -519,7 +533,7 @@ export function ApplicationEditor({
               </div>
               {timeline.fields.map((entry, index) => (
                 <div
-                  className="grid gap-2 rounded-md border bg-card p-3 sm:grid-cols-[150px_1fr_auto]"
+                  className="grid gap-2 rounded-lg border bg-background p-3 sm:grid-cols-[150px_1fr_auto]"
                   key={entry.id}
                 >
                   <Input
@@ -546,7 +560,7 @@ export function ApplicationEditor({
             </div>
           </Section>
         </form>
-        <footer className="sticky bottom-0 z-20 border-t bg-card py-4">
+        <footer className="sticky bottom-0 z-20 border-t bg-card/90 py-3.5 backdrop-blur-md">
           <div
             className={`${CONTENT_COLUMN} flex items-center justify-between gap-3 px-5 sm:px-8`}
           >

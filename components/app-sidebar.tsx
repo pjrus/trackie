@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
-import { Download, HelpCircle, KanbanSquare, List, Plus, Settings } from "lucide-react";
+import { Download, HelpCircle, KanbanSquare, List, Settings } from "lucide-react";
 import { useWorkspace } from "@/components/workspace-provider";
 import { TrackieLogo } from "@/components/trackie-logo";
 import { ImportExport } from "@/components/import-export";
@@ -32,28 +32,20 @@ const VIEWS = [
 export function AppSidebar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const { applications, addApplications, openNewApplication } = useWorkspace();
+  const { applications, addApplications } = useWorkspace();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-2 py-1.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
-          <TrackieLogo showWordmark className="group-data-[collapsible=icon]:[&>span]:hidden" />
+        <div className="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
+          <TrackieLogo
+            showWordmark
+            className="group-data-[collapsible=icon]:[&>span]:hidden"
+          />
         </div>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={openNewApplication}
-              tooltip="New application"
-            >
-              <Plus />
-              <span>New application</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>Views</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {VIEWS.map(({ href, label, icon: Icon }) => (

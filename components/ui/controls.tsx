@@ -40,7 +40,7 @@ export function PopoverContent({
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md",
+          "z-50 w-72 rounded-xl border bg-popover p-4 text-popover-foreground shadow-lg",
           className,
         )}
         {...props}
@@ -58,7 +58,7 @@ export function SelectTrigger({
   return (
     <SelectPrimitive.Trigger
       className={cn(
-        "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring",
+        "flex h-9 w-full items-center justify-between rounded-md border border-input bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/35",
         className,
       )}
       {...props}
@@ -82,7 +82,7 @@ export function SelectContent({
         position="popper"
         sideOffset={4}
         className={cn(
-          "z-[70] min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border bg-popover shadow-md",
+          "z-[70] min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-lg border bg-popover shadow-lg",
           className,
         )}
         {...props}
@@ -125,10 +125,10 @@ export function Slider({ className, ...props }: SliderPrimitive.SliderProps) {
       )}
       {...props}
     >
-      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
+      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden bg-muted">
         <SliderPrimitive.Range className="absolute h-full bg-primary" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block size-5 rounded-full border-2 border-primary bg-background shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+      <SliderPrimitive.Thumb className="block h-4 w-2.5 border-2 border-primary bg-background shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring" />
     </SliderPrimitive.Root>
   );
 }
@@ -164,7 +164,7 @@ export function ScrollArea({
         orientation="vertical"
         className="flex touch-none select-none p-px"
       >
-        <ScrollPrimitive.Thumb className="relative flex-1 rounded-full bg-border" />
+        <ScrollPrimitive.Thumb className="relative flex-1 bg-border" />
       </ScrollPrimitive.Scrollbar>
     </ScrollPrimitive.Root>
   );

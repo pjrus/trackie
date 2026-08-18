@@ -1,11 +1,12 @@
 "use client";
 import { useDraggable } from "@dnd-kit/core";
 import { CalendarDays, GripVertical, MoreHorizontal } from "lucide-react";
-import { daysUntilDeadline, deadlineLabel } from "@/lib/applications";
+import { deadlineLabel } from "@/lib/applications";
 import { STAGES, type Application, type Priority, type Stage } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Badge, Card } from "@/components/ui/display";
+import { Card } from "@/components/ui/display";
 import { Button } from "@/components/ui/button";
+import { deadlineTone, deadlineToneClass } from "@/components/stage-ladder";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,23 +15,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const priorityClass = (priority: Priority) =>
-  priority === "High"
-    ? "border-destructive/25 bg-destructive/10 text-destructive"
-    : priority === "Low"
-      ? "border-success/25 bg-success/10 text-success"
-      : "border-warning/25 bg-warning/10 text-warning";
-
 export const applicationLabel = (application: Application) =>
   `${application.role || "Role not set"} at ${application.company || "Company not set"}`;
+
+/**
+ * Priority is drawn in weight rather than hue. Colour on a card means one
+ * thing only — how close a deadline is — so a high-priority card cannot be
+ * mistaken for an overdue one at a glance.
+ */
+const PRIORITY_DOT: Record<Priority, string> = {
+  High: "bg-foreground",
+  Medium: "bg-muted-foreground/60",
+  Low: "border border-muted-foreground/50",
+};
 
 function Heading({ application }: { application: Application }) {
   return (
     <>
-      <p className="truncate text-xs font-bold uppercase tracking-[.13em] text-muted-foreground">
+      <p className="eyebrow truncate text-muted-foreground">
         {application.company || "Company not set"}
       </p>
-      <h3 className="mt-1 font-display text-lg font-semibold leading-tight">
+      <h3 className="mt-1.5 break-words font-display text-[15px] font-semibold leading-snug">
         {application.role || "Role not set"}
       </h3>
     </>
@@ -38,24 +43,42 @@ function Heading({ application }: { application: Application }) {
 }
 
 function Meta({ application }: { application: Application }) {
-  const days = daysUntilDeadline(application.nextStepDeadline);
+  const tone = deadlineTone(application.nextStepDeadline);
   return (
-    <div className="mt-5 flex items-end justify-between gap-3">
-      <Badge className={priorityClass(application.priority)}>
+    <div className="mt-4 flex items-center justify-between gap-3 border-t border-border/70 pt-3">
+      <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <span
+          aria-hidden
+          className={cn("size-2", PRIORITY_DOT[application.priority])}
+        />
         {application.priority}
-      </Badge>
+      </span>
       <span
         className={cn(
-          "flex items-center gap-1 text-xs",
-          days !== null && days < 0
-            ? "font-semibold text-destructive"
-            : "text-muted-foreground",
+          "flex items-center gap-1.5 font-mono text-[11px]",
+          deadlineToneClass[tone],
+          tone === "overdue" && "font-semibold",
         )}
       >
         <CalendarDays className="size-3.5 shrink-0" />
         {deadlineLabel(application.nextStepDeadline)}
       </span>
     </div>
+  );
+}
+
+/** A 3px edge is the only place a card raises its voice: red past due, amber inside the week. */
+function UrgencyRail({ application }: { application: Application }) {
+  const tone = deadlineTone(application.nextStepDeadline);
+  if (tone !== "overdue" && tone !== "soon") return null;
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "absolute inset-y-0 left-0 w-[3px]",
+        tone === "overdue" ? "bg-destructive" : "bg-warning",
+      )}
+    />
   );
 }
 
@@ -76,14 +99,17 @@ export function ApplicationCard({
     <Card
       ref={setNodeRef}
       className={cn(
-        "group relative p-4",
-        isDragging ? "opacity-40" : "hover:border-primary/45",
+        "group relative px-3.5 py-3 transition-[border-color,box-shadow,translate]",
+        isDragging
+          ? "opacity-40"
+          : "hover:-translate-y-px hover:border-primary/40 hover:shadow-md",
       )}
     >
-      <div className="flex items-start gap-2">
+      <UrgencyRail application={application} />
+      <div className="flex items-start gap-1.5">
         <button
           type="button"
-          className="mt-0.5 shrink-0 cursor-grab touch-none rounded p-1 text-muted-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:cursor-grabbing"
+          className="-ml-1 mt-0.5 shrink-0 cursor-grab touch-none p-1 text-muted-foreground/45 transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group-hover:text-muted-foreground active:cursor-grabbing"
           aria-label={`Move ${application.company || application.role}`}
           {...attributes}
           {...listeners}
@@ -102,7 +128,7 @@ export function ApplicationCard({
             <Button
               size="icon"
               variant="ghost"
-              className="-mr-2 -mt-2 size-8 shrink-0"
+              className="-mr-1.5 -mt-1 size-8 shrink-0 text-muted-foreground/60 hover:text-foreground"
               aria-label="Application actions"
             >
               <MoreHorizontal className="size-4" />
@@ -137,16 +163,17 @@ export function ApplicationCardPreview({
   return (
     <Card
       aria-hidden
-      className="h-full w-full cursor-grabbing border-primary p-4 shadow-lg"
+      className="relative h-full w-full rotate-1 cursor-grabbing border-primary/60 px-3.5 py-3 shadow-lg"
     >
-      <div className="flex items-start gap-2">
-        <span className="mt-0.5 shrink-0 p-1 text-muted-foreground">
+      <UrgencyRail application={application} />
+      <div className="flex items-start gap-1.5">
+        <span className="-ml-1 mt-0.5 shrink-0 p-1 text-muted-foreground">
           <GripVertical className="size-4" />
         </span>
         <div className="min-w-0 flex-1">
           <Heading application={application} />
         </div>
-        <span className="-mr-2 -mt-2 size-8 shrink-0" />
+        <span className="-mr-1.5 -mt-1 size-8 shrink-0" />
       </div>
       <Meta application={application} />
     </Card>

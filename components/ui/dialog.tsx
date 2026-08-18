@@ -13,10 +13,10 @@ export function DialogContent({
 }: DialogPrimitive.DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/45" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px]" />
       <DialogPrimitive.Content
         className={cn(
-          "fixed left-1/2 top-1/2 z-50 max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border bg-background p-6 shadow-lg",
+          "fixed left-1/2 top-1/2 z-50 max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-xl border bg-card p-6 shadow-lg",
           className,
         )}
         {...props}
@@ -35,7 +35,7 @@ export const DialogTitle = ({
   ...props
 }: DialogPrimitive.DialogTitleProps) => (
   <DialogPrimitive.Title
-    className={cn("font-display text-2xl font-semibold", className)}
+    className={cn("font-display text-xl font-semibold", className)}
     {...props}
   />
 );
@@ -58,7 +58,7 @@ export function SheetContent({
 }: DialogPrimitive.DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/45" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px]" />
       <DialogPrimitive.Content
         className={cn(
           "fixed inset-0 z-50 flex flex-col bg-background shadow-lg sm:inset-y-0 sm:left-auto sm:right-0 sm:w-[min(720px,92vw)] sm:border-l",

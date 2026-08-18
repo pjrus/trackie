@@ -32,9 +32,7 @@ function Group<T extends string>({
 }) {
   return (
     <fieldset className="space-y-2">
-      <legend className="mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-        {title}
-      </legend>
+      <legend className="eyebrow mb-2.5 text-muted-foreground">{title}</legend>
       {values.map((value) => (
         <label className="flex items-center gap-2 text-sm" key={value}>
           <Checkbox
@@ -77,11 +75,11 @@ export function FilterBar() {
     filters.activeOnly ||
     advancedCount > 0;
   return (
-    <div className="flex flex-col gap-3 px-4 py-5 lg:flex-row lg:items-center lg:px-8">
-      <div className="relative min-w-0 max-w-xs flex-1">
-        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+    <div className="flex flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:px-8">
+      <div className="relative min-w-0 max-w-sm flex-1">
+        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          className="h-11 bg-card pl-10"
+          className="h-9 bg-card pl-9 shadow-sm"
           value={filters.search}
           onChange={(event) =>
             onChange({ ...filters, search: event.target.value })
@@ -92,6 +90,7 @@ export function FilterBar() {
       </div>
       <div className="flex flex-wrap gap-2">
         <Button
+          aria-pressed={filters.dueThisWeek}
           variant={filters.dueThisWeek ? "default" : "secondary"}
           onClick={() =>
             onChange({ ...filters, dueThisWeek: !filters.dueThisWeek })
@@ -100,6 +99,7 @@ export function FilterBar() {
           Due this week
         </Button>
         <Button
+          aria-pressed={filters.activeOnly}
           variant={filters.activeOnly ? "default" : "secondary"}
           onClick={() =>
             onChange({ ...filters, activeOnly: !filters.activeOnly })
@@ -113,7 +113,7 @@ export function FilterBar() {
               <ListFilter className="size-4" />
               Filters
               {advancedCount ? (
-                <span className="rounded-full bg-primary px-1.5 text-xs text-primary-foreground">
+                <span className="bg-primary px-1.5 font-mono text-[11px] font-semibold text-primary-foreground">
                   {advancedCount}
                 </span>
               ) : null}
