@@ -1,6 +1,17 @@
 # Trackie
 
-Trackie is a private, local-first workspace for managing job applications. It is built with Next.js App Router, TypeScript, Tailwind CSS and shadcn-style Radix primitives. There is no account, API or database: application data remains in the browser.
+Trackie is a private, local-first workspace for managing job applications. There is no account, API or database: application data remains in the browser, persisted to `localStorage`.
+
+## Tech stack
+
+- **Framework** — [Next.js 16](https://nextjs.org) (App Router) on [React 19](https://react.dev), written in [TypeScript](https://www.typescriptlang.org).
+- **Styling** — [Tailwind CSS v4](https://tailwindcss.com) via `@tailwindcss/postcss`, with shadcn-style primitives built on [Radix UI](https://www.radix-ui.com) (accordion, alert dialog, checkbox, dialog, dropdown menu, popover, scroll area, select, separator, slider, tabs, toggle group, tooltip).
+- **Forms & validation** — [React Hook Form](https://react-hook-form.com) with [Zod](https://zod.dev) schemas via `@hookform/resolvers`.
+- **Drag and drop** — [dnd-kit](https://dndkit.com) (`core`, `sortable`, `utilities`, `accessibility`) powers the kanban board.
+- **UI utilities** — `lucide-react` icons, `class-variance-authority` and `tailwind-merge` for variant/class composition, `next-themes` for light/dark mode, `sonner` for toasts.
+- **Import/export** — `papaparse` for CSV parsing.
+- **Testing** — [Vitest](https://vitest.dev) with `@testing-library/react` and `jsdom` for unit/component tests, [Playwright](https://playwright.dev) for end-to-end tests.
+- **Tooling** — ESLint (`eslint-config-next`) and `tsc --noEmit` for linting and type checking.
 
 ## Development
 
