@@ -23,7 +23,6 @@ import {
   applicationLabel,
 } from "@/components/application-card";
 import { cn } from "@/lib/utils";
-import { stageColor } from "@/components/stage-ladder";
 import { STAGES, type Application, type Stage } from "@/lib/types";
 
 /**
@@ -82,14 +81,7 @@ function Column({
       className="flex w-[300px] min-w-0 shrink-0 flex-col"
     >
       <header className="mb-3">
-        {/* The rule carries the stage's rung colour: paler early, saturated
-            late, so the board reads as a funnel before a single word is. */}
-        <span
-          aria-hidden
-          className="block h-[3px]"
-          style={{ background: stageColor(stage) }}
-        />
-        <div className="flex min-w-0 items-baseline justify-between gap-2 pt-2.5">
+        <div className="flex min-w-0 items-baseline justify-between gap-2">
           <h2
             id={headingId}
             className="truncate font-display text-[15px] font-semibold"

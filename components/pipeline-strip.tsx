@@ -104,7 +104,6 @@ export function PipelineStrip({
     (total, stage) => total + (byStage.get(stage) ?? 0),
     0,
   );
-  if (!applications.length) return null;
 
   const toggleStage = (stage: Stage) =>
     setFilters({
@@ -134,19 +133,31 @@ export function PipelineStrip({
       </div>
 
       {/* One proportional bar. The closed stages keep their true share but sit
-          after a gap: they are exits from the ladder, not further rungs. */}
+          after a gap: they are exits from the ladder, not further rungs. An
+          empty filter result leaves every segment at zero, so fall back to a
+          flat track rather than letting the bar collapse to nothing. */}
       <div aria-hidden className="mt-4 flex h-2 items-stretch gap-1">
-        {LADDER.map((stage) => (
-          <Segment key={stage} stage={stage} count={byStage.get(stage) ?? 0} />
-        ))}
-        {CLOSED_STAGES.map((stage, index) => (
-          <Segment
-            key={stage}
-            stage={stage}
-            count={byStage.get(stage) ?? 0}
-            className={index === 0 && closed ? "ml-3" : undefined}
-          />
-        ))}
+        {applications.length ? (
+          <>
+            {LADDER.map((stage) => (
+              <Segment
+                key={stage}
+                stage={stage}
+                count={byStage.get(stage) ?? 0}
+              />
+            ))}
+            {CLOSED_STAGES.map((stage, index) => (
+              <Segment
+                key={stage}
+                stage={stage}
+                count={byStage.get(stage) ?? 0}
+                className={index === 0 && closed ? "ml-3" : undefined}
+              />
+            ))}
+          </>
+        ) : (
+          <span className="h-full w-full rounded-full bg-muted" />
+        )}
       </div>
 
       {showLegend ? (
