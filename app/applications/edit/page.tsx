@@ -1,6 +1,7 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import type { ApplicationFormValues } from "@/lib/applications";
 import { useApplications } from "@/hooks/use-applications";
@@ -8,21 +9,23 @@ import { ApplicationEditor } from "@/components/application-editor";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/display";
 
-export default function ApplicationPage() {
-  const { id } = useParams<{ id: string }>();
+function EditorSkeleton() {
+  return (
+    <div className="mx-auto max-w-3xl px-5 py-8 sm:px-8">
+      <Skeleton className="h-8 w-64" />
+      <Skeleton className="mt-4 h-40 w-full" />
+      <Skeleton className="mt-4 h-40 w-full" />
+    </div>
+  );
+}
+
+function ApplicationEditorPage() {
+  const id = useSearchParams().get("id");
   const router = useRouter();
   const { applications, isLoaded, updateApplication, deleteApplication } =
     useApplications();
 
-  if (!isLoaded) {
-    return (
-      <div className="mx-auto max-w-3xl px-5 py-8 sm:px-8">
-        <Skeleton className="h-8 w-64" />
-        <Skeleton className="mt-4 h-40 w-full" />
-        <Skeleton className="mt-4 h-40 w-full" />
-      </div>
-    );
-  }
+  if (!isLoaded) return <EditorSkeleton />;
 
   const application = applications.find((app) => app.id === id) ?? null;
   if (!application) {
@@ -56,5 +59,14 @@ export default function ApplicationPage() {
 
   return (
     <ApplicationEditor application={application} onSave={save} onDelete={remove} />
+  );
+}
+
+/** `useSearchParams` needs a Suspense boundary so the shell can prerender. */
+export default function Page() {
+  return (
+    <Suspense fallback={<EditorSkeleton />}>
+      <ApplicationEditorPage />
+    </Suspense>
   );
 }

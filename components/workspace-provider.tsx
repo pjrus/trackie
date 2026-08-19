@@ -146,7 +146,7 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
       addApplications,
       moveApplication: move,
       openApplication: (application) =>
-        router.push(`/applications/${application.id}`),
+        router.push(`/applications/edit?id=${encodeURIComponent(application.id)}`),
       openNewApplication: () => router.push("/applications/new"),
       rememberView: setView,
     }),
