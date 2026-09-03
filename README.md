@@ -2,6 +2,8 @@
 
 Trackie is a private, local-first workspace for managing job applications. There is no account, API or database: application data remains in the browser, persisted to `localStorage`.
 
+![Trackie kanban board](docs/images/kanban-board.png)
+
 ## Tech stack
 
 - **Framework** — [Next.js 16](https://nextjs.org) (App Router) on [React 19](https://react.dev), written in [TypeScript](https://www.typescriptlang.org).
