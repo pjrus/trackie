@@ -1,12 +1,7 @@
 "use client";
 import { type ReactNode, useRef, useState } from "react";
-import {
-  Calendar,
-  Download,
-  FileJson,
-  FileSpreadsheet,
-  Upload,
-} from "lucide-react";
+import { Calendar, FileJson, FileSpreadsheet, Upload } from "lucide-react";
+import { toast } from "sonner";
 import {
   createCSV,
   createICS,
@@ -38,13 +33,11 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export function ImportExport({
   applications,
   onImport,
-  notify,
   trigger,
 }: {
   applications: Application[];
   onImport: (apps: Application[]) => void;
-  notify: (message: string) => void;
-  trigger?: ReactNode;
+  trigger: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"csv" | "json">("json");
@@ -70,7 +63,7 @@ export function ImportExport({
         "job-deadlines.ics",
         "text/calendar",
       );
-    notify(
+    toast.success(
       `Exported ${applications.length} application${applications.length === 1 ? "" : "s"} as ${type.toUpperCase()}.`,
     );
   };
@@ -89,12 +82,7 @@ export function ImportExport({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          {trigger ?? (
-            <Button variant="secondary">
-              <Download className="size-4" />
-              <span className="hidden sm:inline">Import / Export</span>
-            </Button>
-          )}
+          {trigger}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Export</DropdownMenuLabel>
@@ -218,7 +206,7 @@ export function ImportExport({
                   disabled={!preview.accepted.length}
                   onClick={() => {
                     onImport(preview.accepted);
-                    notify(
+                    toast.success(
                       `Imported ${preview.accepted.length} application${preview.accepted.length === 1 ? "" : "s"}.`,
                     );
                     setOpen(false);

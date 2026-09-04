@@ -1,10 +1,11 @@
 "use client";
 import { ArrowDown, ChevronsUpDown } from "lucide-react";
 import { deadlineLabel, formatDate } from "@/lib/applications";
-import { type Application, type Priority, type SortKey } from "@/lib/types";
+import { type Application, type SortKey } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Table } from "@/components/ui/display";
 import {
+  PRIORITY_DOT,
   StageTrack,
   deadlineTone,
   deadlineToneClass,
@@ -20,12 +21,6 @@ const columns: Array<{ key: SortKey; label: string; className?: string }> = [
   { key: "deadline", label: "Next deadline" },
   { key: "type", label: "Type" },
 ];
-
-const PRIORITY_DOT: Record<Priority, string> = {
-  High: "bg-foreground",
-  Medium: "bg-muted-foreground/60",
-  Low: "border border-muted-foreground/50",
-};
 
 export function TableView({
   applications,

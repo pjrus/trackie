@@ -1,6 +1,6 @@
 "use client";
 import { type ReactNode, useState } from "react";
-import { Check, Copy, HelpCircle } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { SAMPLE_CSV } from "@/lib/import-export";
 import {
   Accordion,
@@ -33,7 +33,7 @@ const prompts = [
   },
 ];
 
-export function HelpDialog({ trigger }: { trigger?: ReactNode }) {
+export function HelpDialog({ trigger }: { trigger: ReactNode }) {
   const [copied, setCopied] = useState("");
   const copy = async (key: string, value: string) => {
     await navigator.clipboard.writeText(value);
@@ -42,13 +42,7 @@ export function HelpDialog({ trigger }: { trigger?: ReactNode }) {
   };
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        {trigger ?? (
-          <Button variant="ghost" size="icon" aria-label="Open help">
-            <HelpCircle className="size-5" />
-          </Button>
-        )}
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-3xl">
         <DialogTitle>Guide & templates</DialogTitle>
         <DialogDescription>

@@ -1,6 +1,7 @@
 "use client";
 import { type ReactNode } from "react";
-import { Laptop, Moon, Settings, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Laptop, Moon, Sun } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/controls";
 
 const THEMES = [
@@ -17,24 +17,11 @@ const THEMES = [
   { value: "system", label: "System", icon: Laptop },
 ] as const;
 
-export function SettingsPanel({
-  theme,
-  setTheme,
-  trigger,
-}: {
-  theme?: string;
-  setTheme: (theme: string) => void;
-  trigger?: ReactNode;
-}) {
+export function SettingsPanel({ trigger }: { trigger: ReactNode }) {
+  const { theme, setTheme } = useTheme();
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        {trigger ?? (
-          <Button variant="ghost" size="icon" aria-label="Open settings">
-            <Settings className="size-5" />
-          </Button>
-        )}
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogTitle>Settings</DialogTitle>
         <DialogDescription>

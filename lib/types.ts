@@ -26,8 +26,16 @@ export type Priority = (typeof PRIORITIES)[number];
 export type Industry = (typeof INDUSTRIES)[number];
 export type EmploymentType = (typeof EMPLOYMENT_TYPES)[number];
 export type ViewMode = "kanban" | "table";
-export type SortKey =
-  "deadline" | "company" | "role" | "stage" | "priority" | "industry" | "type";
+export const SORT_KEYS = [
+  "deadline",
+  "company",
+  "role",
+  "stage",
+  "priority",
+  "industry",
+  "type",
+] as const;
+export type SortKey = (typeof SORT_KEYS)[number];
 
 export interface TimelineEntry {
   id: string;

@@ -19,7 +19,7 @@ const optionalDate = z
       !value ||
       (datePattern.test(value) &&
         !Number.isNaN(Date.parse(`${value}T00:00:00`))),
-    "Use a valid date",
+    "Use a valid date (YYYY-MM-DD)",
   );
 const optionalUrl = z
   .string()

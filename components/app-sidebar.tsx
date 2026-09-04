@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { toast } from "sonner";
 import { Download, HelpCircle, KanbanSquare, List, Settings } from "lucide-react";
 import { useWorkspace } from "@/components/workspace-provider";
 import { TrackieLogo } from "@/components/trackie-logo";
@@ -31,7 +29,6 @@ const VIEWS = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
   const { applications, addApplications } = useWorkspace();
   return (
     <Sidebar collapsible="icon">
@@ -72,7 +69,6 @@ export function AppSidebar() {
             <ImportExport
               applications={applications}
               onImport={addApplications}
-              notify={(message) => toast.success(message)}
               trigger={
                 <SidebarMenuButton tooltip="Import / Export">
                   <Download />
@@ -93,8 +89,6 @@ export function AppSidebar() {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SettingsPanel
-              theme={theme}
-              setTheme={setTheme}
               trigger={
                 <SidebarMenuButton tooltip="Settings">
                   <Settings />

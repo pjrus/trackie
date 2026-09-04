@@ -6,7 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function newId() {
-  return typeof crypto !== "undefined" && crypto.randomUUID
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  return crypto.randomUUID();
 }

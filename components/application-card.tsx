@@ -2,11 +2,15 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CalendarDays, GripVertical, MoreHorizontal } from "lucide-react";
 import { deadlineLabel } from "@/lib/applications";
-import { STAGES, type Application, type Priority, type Stage } from "@/lib/types";
+import { STAGES, type Application, type Stage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/display";
 import { Button } from "@/components/ui/button";
-import { deadlineTone, deadlineToneClass } from "@/components/stage-ladder";
+import {
+  deadlineTone,
+  deadlineToneClass,
+  PRIORITY_DOT,
+} from "@/components/stage-ladder";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,17 +21,6 @@ import {
 
 export const applicationLabel = (application: Application) =>
   `${application.role || "Role not set"} at ${application.company || "Company not set"}`;
-
-/**
- * Priority is drawn in weight rather than hue. Colour on a card means one
- * thing only — how close a deadline is — so a high-priority card cannot be
- * mistaken for an overdue one at a glance.
- */
-const PRIORITY_DOT: Record<Priority, string> = {
-  High: "bg-foreground",
-  Medium: "bg-muted-foreground/60",
-  Low: "border border-muted-foreground/50",
-};
 
 function Heading({ application }: { application: Application }) {
   return (

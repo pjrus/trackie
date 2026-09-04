@@ -1,14 +1,6 @@
 import Papa from "papaparse";
-import { normaliseApplication } from "./applications";
-import {
-  EMPLOYMENT_TYPES,
-  INDUSTRIES,
-  PRIORITIES,
-  STAGES,
-  type Application,
-  type ImportIssue,
-  type ImportPreview,
-} from "./types";
+import { applicationFormSchema, normaliseApplication } from "./applications";
+import type { Application, ImportIssue, ImportPreview } from "./types";
 
 export const CSV_HEADERS = [
   "Company",
@@ -128,68 +120,51 @@ export function createICS(applications: Application[], now = new Date()) {
   ].join("\r\n");
 }
 
-const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-const httpUrlPattern = /^https?:\/\//i;
+const str = (value: unknown) => (typeof value === "string" ? value : "");
+
+// applicationFormSchema requires every field; fill in the ones missing from
+// a partial import record with the same defaults normaliseApplication uses,
+// so only genuinely-present-and-invalid values fail validation.
+function toFormInput(value: Record<string, unknown>) {
+  return {
+    company: str(value.company),
+    role: str(value.role),
+    industry: value.industry ?? "Other",
+    type: value.type ?? "Full-time",
+    stage: value.stage ?? "Applied",
+    priority: value.priority ?? "Medium",
+    confidence: typeof value.confidence === "number" ? value.confidence : 3,
+    applicationDeadline: str(value.applicationDeadline),
+    nextStepDeadline: str(value.nextStepDeadline),
+    nextStepDescription: str(value.nextStepDescription),
+    location: str(value.location),
+    salary: str(value.salary),
+    jobUrl: str(value.jobUrl),
+    notes: str(value.notes),
+    whyApplied: str(value.whyApplied),
+    tags: Array.isArray(value.tags)
+      ? value.tags.filter((tag): tag is string => typeof tag === "string")
+      : [],
+    links: Array.isArray(value.links) ? value.links : [],
+    referral: value.referral === true || value.referral === "Yes",
+    referrerName: str(value.referrerName),
+    timeline: Array.isArray(value.timeline) ? value.timeline : [],
+  };
+}
 
 function validateImportRecord(record: unknown) {
   if (!record || typeof record !== "object" || Array.isArray(record))
     return ["Record must be an object."];
   const value = record as Record<string, unknown>;
-  const issues: string[] = [];
-  if (!String(value.company ?? "").trim() && !String(value.role ?? "").trim())
-    issues.push("Enter a company or role.");
-  for (const [field, label] of [
-    ["applicationDeadline", "Application deadline"],
-    ["nextStepDeadline", "Next step deadline"],
-  ] as const) {
-    const date = value[field];
-    if (
-      typeof date === "string" &&
-      date &&
-      (!datePattern.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00`)))
-    )
-      issues.push(`${label} must use YYYY-MM-DD.`);
-  }
+  const result = applicationFormSchema.safeParse(toFormInput(value));
+  const issues = result.success ? [] : result.error.issues.map((i) => i.message);
+  // dateAdded isn't part of the form schema (it's set on create, not entered).
   if (
     typeof value.dateAdded === "string" &&
     value.dateAdded &&
     Number.isNaN(Date.parse(value.dateAdded))
   )
     issues.push("Date added is invalid.");
-  if (
-    typeof value.jobUrl === "string" &&
-    value.jobUrl &&
-    !httpUrlPattern.test(value.jobUrl)
-  )
-    issues.push("Job URL must start with http:// or https://.");
-  if (
-    value.confidence !== undefined &&
-    (!Number.isInteger(value.confidence) ||
-      Number(value.confidence) < 1 ||
-      Number(value.confidence) > 5)
-  )
-    issues.push("Confidence must be an integer from 1 to 5.");
-  for (const [field, options, label] of [
-    ["stage", STAGES, "Stage"],
-    ["priority", PRIORITIES, "Priority"],
-    ["industry", INDUSTRIES, "Industry"],
-    ["type", EMPLOYMENT_TYPES, "Employment type"],
-  ] as const) {
-    const selection = value[field];
-    if (selection && !options.includes(selection as never))
-      issues.push(`${label} is not recognised.`);
-  }
-  if (Array.isArray(value.tags)) {
-    const tags = value.tags
-      .filter((tag): tag is string => typeof tag === "string")
-      .map((tag) => tag.trim().toLowerCase());
-    if (new Set(tags).size !== tags.length) issues.push("Tags must be unique.");
-  }
-  if (
-    (value.referral === true || value.referral === "Yes") &&
-    !String(value.referrerName ?? "").trim()
-  )
-    issues.push("A referrer name is required for referrals.");
   return issues;
 }
 

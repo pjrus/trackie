@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
   normaliseApplication,
   normaliseApplications,
@@ -9,38 +9,12 @@ import {
 import { STORAGE_KEYS } from "@/lib/constants";
 import type { Application, Stage } from "@/lib/types";
 import { newId } from "@/lib/utils";
+import { usePersistedState } from "@/hooks/use-persisted-state";
 
 export function useApplications() {
-  const [applications, setApplications] = useState<Application[]>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    let active = true;
-    queueMicrotask(() => {
-      if (!active) return;
-      try {
-        setApplications(
-          normaliseApplications(
-            JSON.parse(localStorage.getItem(STORAGE_KEYS.applications) ?? "[]"),
-          ),
-        );
-      } catch {
-        setApplications([]);
-      }
-      setIsLoaded(true);
-    });
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded)
-      localStorage.setItem(
-        STORAGE_KEYS.applications,
-        JSON.stringify(applications),
-      );
-  }, [applications, isLoaded]);
+  const [applications, setApplications, isLoaded] = usePersistedState<
+    Application[]
+  >(STORAGE_KEYS.applications, [], normaliseApplications);
 
   const addApplications = useCallback(
     (values: Array<ApplicationFormValues | Application>) => {
@@ -59,7 +33,7 @@ export function useApplications() {
       setApplications((current) => [...current, ...created]);
       return created;
     },
-    [],
+    [setApplications],
   );
 
   const updateApplication = useCallback(
@@ -68,12 +42,12 @@ export function useApplications() {
         current.map((app) => (app.id === id ? { ...app, ...updates } : app)),
       );
     },
-    [],
+    [setApplications],
   );
   const deleteApplication = useCallback(
     (id: string) =>
       setApplications((current) => current.filter((app) => app.id !== id)),
-    [],
+    [setApplications],
   );
   const moveApplication = useCallback(
     (id: string, stage: Stage) => updateApplication(id, { stage }),

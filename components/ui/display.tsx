@@ -1,20 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export function Badge({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 border border-border px-2.5 py-0.5 text-xs font-medium",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
 export const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -29,22 +15,12 @@ export const Card = React.forwardRef<
   />
 ));
 Card.displayName = "Card";
-export function Separator({
-  className,
-  orientation = "horizontal",
-}: {
-  className?: string;
-  orientation?: "horizontal" | "vertical";
-}) {
+export function Separator({ className }: { className?: string }) {
   return (
     <div
       role="separator"
-      aria-orientation={orientation}
-      className={cn(
-        "shrink-0 bg-border",
-        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
-        className,
-      )}
+      aria-orientation="horizontal"
+      className={cn("h-px w-full shrink-0 bg-border", className)}
     />
   );
 }

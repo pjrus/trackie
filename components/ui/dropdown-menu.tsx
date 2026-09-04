@@ -1,6 +1,5 @@
 "use client";
 import * as Dropdown from "@radix-ui/react-dropdown-menu";
-import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 export const DropdownMenu = Dropdown.Root;
 export const DropdownMenuTrigger = Dropdown.Trigger;
@@ -34,28 +33,6 @@ export function DropdownMenuItem({
       )}
       {...props}
     />
-  );
-}
-export function DropdownMenuCheckboxItem({
-  className,
-  children,
-  ...props
-}: Dropdown.DropdownMenuCheckboxItemProps) {
-  return (
-    <Dropdown.CheckboxItem
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm py-2 pl-8 pr-3 text-sm outline-none focus:bg-muted",
-        className,
-      )}
-      {...props}
-    >
-      <span className="absolute left-2">
-        <Dropdown.ItemIndicator>
-          <Check className="size-4" />
-        </Dropdown.ItemIndicator>
-      </span>
-      {children}
-    </Dropdown.CheckboxItem>
   );
 }
 export const DropdownMenuSeparator = (

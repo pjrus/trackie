@@ -4,7 +4,6 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import * as TogglePrimitive from "@radix-ui/react-toggle-group";
-import * as ScrollPrimitive from "@radix-ui/react-scroll-area";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -145,27 +144,5 @@ export function ToggleGroupItem({
       )}
       {...props}
     />
-  );
-}
-export function ScrollArea({
-  className,
-  children,
-  ...props
-}: ScrollPrimitive.ScrollAreaProps) {
-  return (
-    <ScrollPrimitive.Root
-      className={cn("relative overflow-hidden", className)}
-      {...props}
-    >
-      <ScrollPrimitive.Viewport className="size-full rounded-[inherit]">
-        {children}
-      </ScrollPrimitive.Viewport>
-      <ScrollPrimitive.Scrollbar
-        orientation="vertical"
-        className="flex touch-none select-none p-px"
-      >
-        <ScrollPrimitive.Thumb className="relative flex-1 bg-border" />
-      </ScrollPrimitive.Scrollbar>
-    </ScrollPrimitive.Root>
   );
 }

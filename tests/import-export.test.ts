@@ -43,7 +43,7 @@ describe("import and export", () => {
     );
     expect(preview.accepted).toHaveLength(1);
     expect(preview.errors).toEqual([
-      { row: 2, message: "Enter a company or role." },
+      { row: 2, message: "Enter a company or role" },
     ]);
   });
 
@@ -62,7 +62,7 @@ describe("import and export", () => {
     expect(preview.accepted).toHaveLength(0);
     expect(preview.errors[0].message).toContain("YYYY-MM-DD");
     expect(preview.errors[0].message).toContain("http://");
-    expect(preview.errors[0].message).toContain("referrer name");
+    expect(preview.errors[0].message).toContain("referrer");
   });
 
   it("creates valid all-day ICS events with an exclusive end date", () => {

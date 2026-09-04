@@ -1,5 +1,5 @@
 import { daysUntilDeadline } from "@/lib/applications";
-import { STAGES, type Stage } from "@/lib/types";
+import { STAGES, type Priority, type Stage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /**
@@ -27,6 +27,17 @@ const STAGE_VARIABLE: Record<Stage, string> = {
 };
 
 export const stageColor = (stage: Stage) => STAGE_VARIABLE[stage];
+
+/**
+ * Priority is drawn in weight rather than hue. Colour on a card means one
+ * thing only — how close a deadline is — so a high-priority card cannot be
+ * mistaken for an overdue one at a glance.
+ */
+export const PRIORITY_DOT: Record<Priority, string> = {
+  High: "bg-foreground",
+  Medium: "bg-muted-foreground/60",
+  Low: "border border-muted-foreground/50",
+};
 
 /** Short forms for tight spaces. Only the two long stage names need one. */
 export const shortStage = (stage: Stage) =>

@@ -18,12 +18,13 @@ import {
   type ApplicationFormValues,
 } from "@/lib/applications";
 import { DEFAULT_FILTERS, STORAGE_KEYS } from "@/lib/constants";
-import type {
-  Application,
-  ApplicationFilters,
-  SortKey,
-  Stage,
-  ViewMode,
+import {
+  SORT_KEYS,
+  type Application,
+  type ApplicationFilters,
+  type SortKey,
+  type Stage,
+  type ViewMode,
 } from "@/lib/types";
 import { useApplications } from "@/hooks/use-applications";
 import { usePersistedState } from "@/hooks/use-persisted-state";
@@ -31,17 +32,7 @@ import { usePersistedState } from "@/hooks/use-persisted-state";
 export const normaliseView = (value: unknown): ViewMode =>
   value === "table" ? "table" : "kanban";
 const normaliseSort = (value: unknown): SortKey =>
-  [
-    "deadline",
-    "company",
-    "role",
-    "stage",
-    "priority",
-    "industry",
-    "type",
-  ].includes(String(value))
-    ? (value as SortKey)
-    : "deadline";
+  SORT_KEYS.includes(value as SortKey) ? (value as SortKey) : "deadline";
 
 interface Workspace {
   /** Every stored application, before filters. */
